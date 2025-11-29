@@ -3,12 +3,12 @@
   "name": "More-Better-Gakujo",
   "version": "0.63",
 
-    "description":"学情の不便を多少解消するかもしれない新大生用拡張機能",
+  "description": "学情の不便を多少解消するかもしれない新大生用拡張機能",
 
-    "icons":{
-        "48":"icons/icon48.png",
-        "128":"icons/icon128.png"
-    },
+  "icons": {
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
 
   "permissions": ["storage"],
 
@@ -18,10 +18,10 @@
     }
   },
 
-    "background" : {
-        "scripts" : [ "backGround.js" ],
-        "persistent": true
-    },
+  "background": {
+    "scripts": ["backGround.js"],
+    "persistent": true
+  },
 
   "content_scripts": [
     {
