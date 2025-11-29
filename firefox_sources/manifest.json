@@ -10,9 +10,13 @@
         "128":"icons/icon128.png"
     },
 
-    "permissions": [
-        "storage"
-    ],
+  "permissions": ["storage"],
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{7706c5ac-9439-477b-b748-7a4a4a7ef902}"
+    }
+  },
 
     "background" : {
         "scripts" : [ "backGround.js" ],
