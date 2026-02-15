@@ -85,3 +85,29 @@ export { waitForElement } from './element-waiter';
 
 // iframe操作
 export { getIframeDocument } from './iframe-accessor';
+// 新しい iframe 操作ヘルパー
+export {
+  getFrameDocument,
+  getTableInFrame,
+  getElementByIdInFrame,
+  querySelectorInFrame,
+  querySelectorAllInFrame,
+} from './iframe-helper';
+
+// テーブル操作ヘルパー
+export {
+  extractTableRowsRaw,
+  extractTableRowsText,
+  parseTableRows,
+  updateTableRows,
+  extractColumns,
+  extractColumnText,
+  sortTableWithObjects,
+} from './table-helper';
+
+// ポーリング/待機ユーティリティ
+export {
+  pollUntil,
+  waitForElementInFrame,
+  startPolling,
+} from './polling';

@@ -6,8 +6,8 @@
  * - 一時保存を青字表示
  */
 
-import { LOAD_CHECK_INTERVAL } from '@/core/constants';
-import { MAIN_IFRAME_ID, REPORT_TABLE_SELECTOR, TAB_MENU_TABLE_ID } from '@/core/constants';
+import { REPORT_TABLE_SELECTOR, TAB_MENU_TABLE_ID, MAIN_IFRAME_SELECTOR } from '@/core/constants';
+import { getTableInFrame, updateTableRows, waitForElementInFrame } from '@/core/dom';
 import {
     REPORT_COLUMN_INDEX,
     SubmissionStatus,
@@ -27,11 +27,7 @@ interface ReportRow {
  * iframe内のレポート一覧テーブルを取得
  */
 function getReportTable(): HTMLTableElement | null {
-    const iframe = document.getElementById(MAIN_IFRAME_ID) as HTMLIFrameElement;
-    if (!iframe?.contentWindow) {
-        return null;
-    }
-    return iframe.contentWindow.document.querySelector(REPORT_TABLE_SELECTOR);
+    return getTableInFrame(REPORT_TABLE_SELECTOR);
 }
 
 /**
@@ -117,12 +113,8 @@ function tableToReportArray(table: HTMLTableElement): ReportRow[] {
  * ソートされた配列でテーブルを更新
  */
 function updateTable(table: HTMLTableElement, rows: ReportRow[]): void {
-    const colCount = table.rows[0].cells.length;
-    for (let i = 0; i < rows.length; i++) {
-        for (let j = 0; j < colCount; j++) {
-            table.rows[i + 1].cells[j].innerHTML = rows[i].cells[j];
-        }
-    }
+    const htmlRows = rows.map((row) => row.cells);
+    updateTableRows(table, htmlRows);
 }
 
 /**
@@ -235,17 +227,20 @@ function createSortButtons(): void {
 /**
  * メイン処理
  */
-function main(): void {
-    const timer = setInterval(() => {
-        const table = getReportTable();
-        if (table) {
-            clearInterval(timer);
-            setTempColorBlue(table);
-            createSortButtons();
-            sortByDate(); // デフォルトで提出期間ソート
-            console.log('[Report Sorter] Initialized');
-        }
-    }, LOAD_CHECK_INTERVAL);
+async function main(): Promise<void> {
+    // テーブルが現れるまで待機
+    await waitForElementInFrame(MAIN_IFRAME_SELECTOR, REPORT_TABLE_SELECTOR);
+
+    const table = getReportTable();
+    if (!table) {
+        console.error('[Report Sorter] Failed to get report table');
+        return;
+    }
+
+    setTempColorBlue(table);
+    createSortButtons();
+    sortByDate(); // デフォルトで提出期間ソート
+    console.log('[Report Sorter] Initialized');
 }
 
 // ページロード時に実行

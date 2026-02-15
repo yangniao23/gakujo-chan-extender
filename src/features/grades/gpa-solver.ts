@@ -6,8 +6,8 @@
  * - 得点順でソート
  */
 
-import { LOAD_CHECK_INTERVAL } from '@/core/constants';
-import { MAIN_IFRAME_ID, GRADE_TABLE_SELECTOR, TAB_MENU_TABLE_ID } from '@/core/constants';
+import { GRADE_TABLE_SELECTOR, TAB_MENU_TABLE_ID, MAIN_IFRAME_SELECTOR } from '@/core/constants';
+import { getTableInFrame, updateTableRows, waitForElementInFrame } from '@/core/dom';
 import {
     GRADE_COLUMN_INDEX,
     GRADE_SORT_BUTTON_IDS,
@@ -28,11 +28,7 @@ interface GradeRow {
  * iframe内の成績一覧テーブルを取得
  */
 function getGradeTable(): HTMLTableElement | null {
-    const iframe = document.getElementById(MAIN_IFRAME_ID) as HTMLIFrameElement;
-    if (!iframe?.contentWindow) {
-        return null;
-    }
-    return iframe.contentWindow.document.querySelector(GRADE_TABLE_SELECTOR);
+    return getTableInFrame(GRADE_TABLE_SELECTOR);
 }
 
 /**
@@ -99,8 +95,8 @@ function tableToGradeArray(table: HTMLTableElement): GradeRow[] {
             cells,
             no: parseFloat(row.cells[GRADE_COLUMN_INDEX.NO]?.textContent || '0'),
             openingNumber: row.cells[GRADE_COLUMN_INDEX.OPENING_NUMBER]?.textContent || '',
-            score: row.cells[GRADE_COLUMN_INDEX.SCORE]?.textContent?.trim() 
-                ? parseFloat(row.cells[GRADE_COLUMN_INDEX.SCORE].textContent) 
+            score: row.cells[GRADE_COLUMN_INDEX.SCORE]?.textContent?.trim()
+                ? parseFloat(row.cells[GRADE_COLUMN_INDEX.SCORE].textContent)
                 : NaN,
             credits: parseFloat(row.cells[GRADE_COLUMN_INDEX.CREDITS]?.textContent || '0'),
             gp: parseFloat(row.cells[GRADE_COLUMN_INDEX.GP]?.textContent || '0'),
@@ -114,12 +110,8 @@ function tableToGradeArray(table: HTMLTableElement): GradeRow[] {
  * ソートされた配列でテーブルを更新
  */
 function updateTable(table: HTMLTableElement, rows: GradeRow[]): void {
-    const colCount = table.rows[0].cells.length;
-    for (let i = 0; i < rows.length; i++) {
-        for (let j = 0; j < colCount; j++) {
-            table.rows[i + 1].cells[j].innerHTML = rows[i].cells[j];
-        }
-    }
+    const htmlRows = rows.map((row) => row.cells);
+    updateTableRows(table, htmlRows);
 }
 
 /**
@@ -234,16 +226,19 @@ function createSortButtons(): void {
 /**
  * メイン処理
  */
-function main(): void {
-    const timer = setInterval(() => {
-        const table = getGradeTable();
-        if (table) {
-            clearInterval(timer);
-            displayGpa();
-            createSortButtons();
-            console.log('[GPA Solver] Initialized');
-        }
-    }, LOAD_CHECK_INTERVAL);
+async function main(): Promise<void> {
+    // テーブルが現れるまで待機
+    await waitForElementInFrame(MAIN_IFRAME_SELECTOR, GRADE_TABLE_SELECTOR);
+
+    const table = getGradeTable();
+    if (!table) {
+        console.error('[GPA Solver] Failed to get grade table');
+        return;
+    }
+
+    displayGpa();
+    createSortButtons();
+    console.log('[GPA Solver] Initialized');
 }
 
 // ページロード時に実行

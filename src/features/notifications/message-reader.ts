@@ -4,8 +4,9 @@
  */
 
 import { runtime } from '@/core/browser/api';
-import { LOAD_CHECK_INTERVAL, RELOAD_DELAY } from '@/core/constants';
-import { MAIN_IFRAME_ID, NOTIFICATION_TABLE_SELECTOR, TAB_MENU_TABLE_ID } from '@/core/constants';
+import { RELOAD_DELAY } from '@/core/constants';
+import { MAIN_IFRAME_SELECTOR, NOTIFICATION_TABLE_SELECTOR, TAB_MENU_TABLE_ID } from '@/core/constants';
+import { getFrameDocument, updateTableRows, waitForElementInFrame } from '@/core/dom';
 import {
     NOTIFICATION_COLUMN_INDEX,
     MESSAGE_READER_IDS,
@@ -19,12 +20,12 @@ import {
  * 通知テーブルを取得
  */
 function loadNotificationTable(): HTMLTableElement | null {
-  const iframe = document.getElementById(MAIN_IFRAME_ID) as HTMLIFrameElement;
-  if (!iframe || !iframe.contentWindow) {
+  const doc = getFrameDocument();
+  if (!doc) {
     return null;
   }
 
-  const table = iframe.contentWindow.document.querySelector(
+  const table = doc.querySelector(
     NOTIFICATION_TABLE_SELECTOR
   ) as HTMLTableElement | null;
   return table;
@@ -150,15 +151,18 @@ function createNumInputBox(): void {
  * メイン処理
  */
 async function main(): Promise<void> {
-  const timer = setInterval(() => {
-    const table = loadNotificationTable();
-    if (table) {
-      clearInterval(timer);
-      createMarkAsReadButton();
-      createNumInputBox();
-      console.log('[MessageReader] Initialized');
-    }
-  }, LOAD_CHECK_INTERVAL);
+  // テーブルが現れるまで待機
+  await waitForElementInFrame(MAIN_IFRAME_SELECTOR, NOTIFICATION_TABLE_SELECTOR);
+
+  const table = loadNotificationTable();
+  if (!table) {
+    console.error('[MessageReader] Failed to get notification table');
+    return;
+  }
+
+  createMarkAsReadButton();
+  createNumInputBox();
+  console.log('[MessageReader] Initialized');
 }
 
 // ページ読み込み時に実行

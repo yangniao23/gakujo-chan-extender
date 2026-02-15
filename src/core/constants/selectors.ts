@@ -9,6 +9,11 @@
 export const MAIN_IFRAME_ID = 'main-frame-if';
 
 /**
+ * メインフレームのiframe セレクタ
+ */
+export const MAIN_IFRAME_SELECTOR = '#main-frame-if';
+
+/**
  * タブメニューテーブルのID
  */
 export const TAB_MENU_TABLE_ID = 'tabmenutable';
