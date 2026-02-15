@@ -4,3 +4,4 @@
 
 export * from './timing';
 export * from './selectors';
+export * from './table';

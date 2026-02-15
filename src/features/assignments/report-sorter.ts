@@ -7,6 +7,7 @@
  */
 
 import { REPORT_TABLE_SELECTOR, TAB_MENU_TABLE_ID, MAIN_IFRAME_SELECTOR } from '@/core/constants';
+import { TABLE_DATA_START_ROW_INDEX, TABLE_HEADER_ROW_INDEX } from '@/core/constants';
 import { getTableInFrame, updateTableRows, waitForElementInFrame } from '@/core/dom';
 import {
     REPORT_COLUMN_INDEX,
@@ -47,7 +48,7 @@ function getCurrentDateTime(): string {
  * 一時保存の文字を青色に変更
  */
 function setTempColorBlue(table: HTMLTableElement): void {
-    for (let i = 0; i < table.rows.length; i++) {
+    for (let i = TABLE_HEADER_ROW_INDEX; i < table.rows.length; i++) {
         const cell = table.rows[i].cells[REPORT_COLUMN_INDEX.STATUS];
         if (!cell) continue;
 
@@ -65,9 +66,9 @@ function setTempColorBlue(table: HTMLTableElement): void {
 function tableToReportArray(table: HTMLTableElement): ReportRow[] {
     const now = getCurrentDateTime();
     const rows: ReportRow[] = [];
-    const colCount = table.rows[0].cells.length;
+    const colCount = table.rows[TABLE_HEADER_ROW_INDEX].cells.length;
 
-    for (let i = 1; i < table.rows.length; i++) {
+    for (let i = TABLE_DATA_START_ROW_INDEX; i < table.rows.length; i++) {
         const row = table.rows[i];
         const cells: string[] = [];
         let status: SubmissionStatus = SubmissionStatus.NOT_SUBMITTED;
