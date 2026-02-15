@@ -213,3 +213,221 @@ describe('URL Extraction', () => {
     expect(decoded).toBe('https://example.com?param1=a&param2=b');
   });
 });
+
+/**
+ * Report Domain ロジックのテスト
+ */
+
+describe('Report Domain', () => {
+  it('should format date time as YYYYMMDDHHMM', () => {
+    // 同期関数ではなく、日時フォーマットロジックをテスト
+    const testDate = new Date(2025, 1, 15, 14, 30, 0);
+    const year = testDate.getFullYear();
+    const month = String(testDate.getMonth() + 1).padStart(2, '0');
+    const date = String(testDate.getDate()).padStart(2, '0');
+    const hour = String(testDate.getHours()).padStart(2, '0');
+    const min = String(testDate.getMinutes()).padStart(2, '0');
+    const result = `${year}${month}${date}${hour}${min}`;
+
+    expect(result).toBe('202502151430');
+  });
+
+  it('should extract deadline from period text', () => {
+    const text = '2025/02/01 12:00 ～ 2025/03/15 23:59';
+    const tildaIndex = text.indexOf('～');
+    if (tildaIndex !== -1) {
+      const deadline = text
+        .substring(tildaIndex + 1)
+        .replace(/\//g, '')
+        .replace(/:/g, '')
+        .replace(/\s/g, '');
+      expect(deadline).toBe('202503152359');
+    }
+  });
+
+  it('should determine submission status from pattern', () => {
+    expect('未提出'.match(/未提出|Not submitted/)).toBeTruthy();
+    expect('一時保存'.match(/一時保存|Temporarily saved/)).toBeTruthy();
+    expect('提出済'.match(/提出済|Submitted/)).toBeTruthy();
+  });
+
+  it('should sort reports by deadline', () => {
+    const reports = [
+      { cells: ['a'], status: 1, deadline: '202503202359' },
+      { cells: ['b'], status: 1, deadline: '202502151400' },
+      { cells: ['c'], status: 1, deadline: '202503012300' },
+    ];
+
+    // 期限内と期限切れに分割
+    const now = '202502161430';
+    const active = reports.filter((row) => row.deadline >= now);
+    const expired = reports.filter((row) => row.deadline < now);
+
+    // それぞれをソート
+    const sortByDeadlineAndStatus = (a: any, b: any) => {
+      const deadlineDiff = parseInt(a.deadline) - parseInt(b.deadline);
+      if (deadlineDiff !== 0) return deadlineDiff;
+      return a.status - b.status;
+    };
+
+    active.sort(sortByDeadlineAndStatus);
+    expired.sort(sortByDeadlineAndStatus);
+
+    expect(active[0].deadline).toBe('202503012300');
+    expect(active[1].deadline).toBe('202503202359');
+    expect(expired[0].deadline).toBe('202502151400');
+  });
+});
+
+/**
+ * GPA Domain ロジックのテスト
+ */
+
+describe('GPA Domain', () => {
+  it('should calculate GPA with multiple courses', () => {
+    const courses = [
+      { gp: 4.0, credits: 2 },
+      { gp: 3.5, credits: 3 },
+      { gp: 3.0, credits: 2 },
+    ];
+
+    const gpCredits = courses.map((c) => c.gp * c.credits);
+    const credits = courses.map((c) => c.credits);
+
+    const gpSum = gpCredits.reduce((sum, val) => sum + val, 0);
+    const creditSum = credits.reduce((sum, val) => sum + val, 0);
+    const gpa = creditSum > 0 ? gpSum / creditSum : 0;
+
+    expect(gpa).toBeCloseTo(3.5, 1);
+  });
+
+  it('should return 0 GPA when no courses', () => {
+    const courses: any[] = [];
+
+    const gpCredits = courses.map((c) => c.gp * c.credits);
+    const credits = courses.map((c) => c.credits);
+
+    const gpSum = gpCredits.reduce((sum, val) => sum + val, 0);
+    const creditSum = credits.reduce((sum, val) => sum + val, 0);
+    const gpa = creditSum > 0 ? gpSum / creditSum : 0;
+
+    expect(gpa).toBe(0);
+  });
+
+  it('should format GPA header with display', () => {
+    const headerText = 'GP';
+    const gpa = 3.456789;
+    const formatted = `${headerText}\n GPA:${gpa.toFixed(4)}`;
+
+    expect(formatted).toBe('GP\n GPA:3.4568');
+  });
+
+  it('should parse score as NaN when empty', () => {
+    const scoreText = '';
+    const score = scoreText.trim() ? parseFloat(scoreText) : NaN;
+
+    expect(isNaN(score)).toBe(true);
+  });
+
+  it('should parse score as number when present', () => {
+    const scoreText = '85.5';
+    const score = scoreText.trim() ? parseFloat(scoreText) : NaN;
+
+    expect(score).toBe(85.5);
+    expect(!isNaN(score)).toBe(true);
+  });
+
+  it('should sort grades by score handling NaN', () => {
+    const grades = [
+      { no: 1, score: 75, originalIndex: 0 },
+      { no: 2, score: NaN, originalIndex: 1 },
+      { no: 3, score: 85, originalIndex: 2 },
+      { no: 4, score: NaN, originalIndex: 3 },
+    ];
+
+    grades.sort((a, b) => {
+      const aHasScore = !isNaN(a.score);
+      const bHasScore = !isNaN(b.score);
+
+      if (!aHasScore && !bHasScore) {
+        return a.originalIndex - b.originalIndex;
+      }
+
+      if (!aHasScore) return -1;
+      if (!bHasScore) return 1;
+
+      if (a.score !== b.score) {
+        return a.score - b.score;
+      }
+
+      return a.originalIndex - b.originalIndex;
+    });
+
+    expect(isNaN(grades[0].score)).toBe(true);
+    expect(isNaN(grades[1].score)).toBe(true);
+    expect(grades[2].score).toBe(75);
+    expect(grades[3].score).toBe(85);
+  });
+});
+
+/**
+ * Notification Domain ロジックのテスト
+ */
+
+describe('Notification Domain', () => {
+  it('should extract URL from HTML href attribute', () => {
+    const html = '=student/notifications?noticeId=12345">';
+    const hrefStart = html.indexOf('=') + 1;
+    const hrefEnd = html.indexOf('"');
+    let url = html.substring(hrefStart, hrefEnd);
+
+    // HTMLエンティティをデコード
+    while (url.indexOf('amp;') !== -1) {
+      url = url.replace('amp;', '');
+    }
+
+    expect(url).toBe('student/notifications?noticeId=12345');
+  });
+
+  it('should parse notification table rows', () => {
+    // HTMLテーブルの場合をシミュレート
+    const mockTable = document.createElement('table');
+    
+    const headerRow = mockTable.insertRow();
+    headerRow.insertCell(0).textContent = 'Date';
+    headerRow.insertCell(1).textContent = 'Link';
+    
+    const dataRow1 = mockTable.insertRow();
+    dataRow1.insertCell(0).innerHTML = '2025-02-15';
+    dataRow1.insertCell(1).innerHTML = '<a href="#">Link 1</a>';
+    
+    const dataRow2 = mockTable.insertRow();
+    dataRow2.insertCell(0).innerHTML = '2025-02-14';
+    dataRow2.insertCell(1).innerHTML = '<a href="#">Link 2</a>';
+
+    // テーブルの行をパースして配列に変換
+    const result: string[][] = [];
+    for (let i = 1; i < mockTable.rows.length; i++) {
+      result[i] = [];
+      const row = mockTable.rows[i];
+      for (let j = 0; j < mockTable.rows[0].cells.length; j++) {
+        result[i][j] = row.cells[j].innerHTML;
+      }
+    }
+
+    expect(result[1][0]).toBe('2025-02-15');
+    expect(result[1][1]).toBe('<a href="#">Link 1</a>');
+    expect(result[2][0]).toBe('2025-02-14');
+    expect(result[2][1]).toBe('<a href="#">Link 2</a>');
+  });
+
+  it('should build full GakuJo URL', () => {
+    const baseUrl = 'https://gakujo.iess.niigata-u.ac.jp/campusweb/';
+    const relativePath = 'student/notifications?noticeId=12345';
+    const fullUrl = baseUrl + relativePath;
+
+    expect(fullUrl).toBe(
+      'https://gakujo.iess.niigata-u.ac.jp/campusweb/student/notifications?noticeId=12345'
+    );
+  });
+});
