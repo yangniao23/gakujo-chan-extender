@@ -5,7 +5,7 @@
  */
 
 import { REPORT_TABLE_SELECTOR, TAB_MENU_TABLE_ID, MAIN_IFRAME_SELECTOR } from '@/core/constants';
-import { getTableInFrame, waitForElementInFrame } from '@/core/dom';
+import { getTableInFrame, waitForElementInFrame, createButton, append } from '@/core/dom';
 import {
     SORT_BUTTON_IDS,
     SORT_BUTTON_LABELS,
@@ -28,28 +28,12 @@ function createSortButtons(table: HTMLTableElement): void {
         return;
     }
 
-    // タイトルでソートボタン
-    const titleButton = document.createElement('button');
-    titleButton.id = SORT_BUTTON_IDS.TITLE;
-    titleButton.textContent = SORT_BUTTON_LABELS.TITLE;
-    titleButton.addEventListener('click', () => sortReportsByTitle(table));
-
-    // 開講番号でソートボタン
-    const numberButton = document.createElement('button');
-    numberButton.id = SORT_BUTTON_IDS.CODE;
-    numberButton.textContent = SORT_BUTTON_LABELS.CODE;
-    numberButton.addEventListener('click', () => sortReportsByNumber(table));
-
-    // 提出期間でソートボタン
-    const dateButton = document.createElement('button');
-    dateButton.id = SORT_BUTTON_IDS.DATE;
-    dateButton.textContent = SORT_BUTTON_LABELS.DATE;
-    dateButton.addEventListener('click', () => sortReportsByDate(table));
-
-    // ボタンを追加
-    tabMenuTable.appendChild(titleButton);
-    tabMenuTable.appendChild(numberButton);
-    tabMenuTable.appendChild(dateButton);
+    append(
+        tabMenuTable,
+        createButton(SORT_BUTTON_LABELS.TITLE, () => sortReportsByTitle(table), { id: SORT_BUTTON_IDS.TITLE }),
+        createButton(SORT_BUTTON_LABELS.CODE, () => sortReportsByNumber(table), { id: SORT_BUTTON_IDS.CODE }),
+        createButton(SORT_BUTTON_LABELS.DATE, () => sortReportsByDate(table), { id: SORT_BUTTON_IDS.DATE })
+    );
 }
 
 /**
@@ -65,9 +49,8 @@ async function main(): Promise<void> {
         return;
     }
 
-    setTempColorBlue(table);
     createSortButtons(table);
-    sortReportsByDate(table); // デフォルトで提出期間ソート
+    sortReportsByDate(table); // デフォルトで提出期間ソート（内部でsetTempColorBlueを呼ぶ）
     console.log('[Report Sorter] Initialized');
 }
 
