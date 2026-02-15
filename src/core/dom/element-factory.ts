@@ -218,7 +218,7 @@ export function createButton(
   button.textContent = text;
 
   if (onClick) {
-    on(button, 'click', onClick as any);
+    on(button, 'click', onClick as (this: HTMLElement, ev: MouseEvent) => any);
   }
 
   applyOptions(button, options);

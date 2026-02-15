@@ -104,7 +104,8 @@ export const runtime = {
 export const tabs = {
   async create(options: chrome.tabs.CreateProperties): Promise<chrome.tabs.Tab> {
     if (typeof browser !== 'undefined') {
-      return await browser.tabs.create(options as any);
+      const result = await browser.tabs.create(options as unknown as Parameters<typeof browser.tabs.create>[0]);
+      return result as unknown as chrome.tabs.Tab;
     } else {
       return new Promise((resolve) => {
         chrome.tabs.create(options, resolve);
