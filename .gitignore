@@ -1,4 +1,23 @@
 node_modules/
-package.json
 package-lock.json
 .babelrc
+
+# WXT
+.wxt/
+.output/
+dist/
+
+# pnpm
+pnpm-lock.yaml
+
+# Build outputs (legacy)
+chrome_sources/*.js
+firefox_sources/*.js
+
+# Test fixtures (may contain personal data)
+test-fixtures/html/*.html
+
+# Test coverage
+coverage/
+
+*.log

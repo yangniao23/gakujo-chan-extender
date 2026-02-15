@@ -165,3 +165,254 @@ OKするといつものログイン画面に飛ばされるのでいつも通り
 #### ※分かる人向け
 この拡張機能内で生成された6桁コードはコンソールログに吐き出しています．  
 鍵の設定にミスがないのに認証エラーが出ているときはコンソールログ吐き出された6桁コードと認証アプリ側の6桁コードが一致しているか確認してください．もし不一致であればissue投げたり連絡したりしてください．
+
+---
+
+# 開発者向け情報
+
+### 技術スタック
+- **TypeScript 5.4** - 型安全な開発
+- **WXT 0.20** - WebExtension フレームワーク
+- **Vite 7.3** - 高速ビルドツール
+- **Vitest 4.0** - ユニットテストフレームワーク
+- **pnpm** - 高速パッケージマネージャー
+
+### プロジェクト構成
+
+このプロジェクトはWXTフレームワークを使用した、モダンなTypeScript製ブラウザ拡張機能です。
+
+#### ディレクトリ構造
+
+```
+gakujo-chan-extender/
+├── src/                      # ソースコード
+│   ├── entrypoints/          # 🔌 WXT エントリポイント（拡張機能の起動点）
+│   │   ├── background.ts     # バックグラウンドサービスワーカー（通知既読処理）
+│   │   ├── login-2fa.content.ts            # 2FA自動入力ページ
+│   │   ├── portal-main.content.ts          # ポータルトップ（自動延長+バージョン表示）
+│   │   ├── portal-assignments.content.ts   # レポート一覧ページ
+│   │   ├── portal-grades.content.ts        # 成績一覧ページ
+│   │   └── portal-notifications.content.ts # 通知一覧ページ
+│   │
+│   ├── pages/                # 📄 ページ別メインロジック
+│   │   ├── login-2fa.ts              # 2FA自動入力のUI構築とTOTP生成
+│   │   ├── portal-assignments.ts     # レポートページの初期化
+│   │   ├── portal-grades.ts          # 成績ページの初期化
+│   │   ├── portal-main.ts            # ポータルトップの初期化
+│   │   └── portal-notifications.ts   # 通知ページの初期化
+│   │
+│   ├── features/             # ⚙️ 機能モジュール（再利用可能な機能単位）
+│   │   ├── assignments/
+│   │   │   └── report-sorter.ts      # レポートソート機能（期限順/タイトル/開講番号）
+│   │   ├── grades/
+│   │   │   └── gpa-solver.ts         # GPA計算と成績ソート機能
+│   │   ├── notifications/
+│   │   │   └── message-reader.ts     # 通知一括既読機能
+│   │   ├── session/
+│   │   │   └── auto-extend.ts        # セッション自動延長（120分まで）
+│   │   └── ui/
+│   │       └── version-display.ts    # バージョン番号表示
+│   │
+│   └── core/                 # 🛠️ コアユーティリティ（汎用ヘルパー）
+│       ├── auth/             # 認証・暗号化関連
+│       │   ├── convert.ts          # Base32→Hex変換
+│       │   ├── totp.ts             # TOTPトークン生成（RFC 6238準拠）
+│       │   └── validation.ts       # 入力値検証
+│       ├── browser/
+│       │   └── api.ts              # ブラウザAPI抽象化（Chrome/Firefox互換）
+│       └── dom/              # DOM操作ヘルパー
+│           ├── element-factory.ts  # 要素作成ヘルパー（button, input等）
+│           ├── element-query.ts    # 要素検索ヘルパー
+│           ├── element-waiter.ts   # 要素出現待機ユーティリティ
+│           ├── element-advanced.ts # 高度なDOM操作
+│           ├── iframe-accessor.ts  # iframe内要素へのアクセス
+│           └── index.ts            # 公開API
+│
+├── test/                     # 🧪 テストコード
+│   ├── unit.test.ts          # ユニットテスト（13テスト）
+│   └── setup.ts              # テスト環境セットアップ
+│
+├── test-fixtures/            # テスト用HTMLフィクスチャ（E2Eテスト準備中）
+├── public/                   # 静的アセット
+│   ├── icon48.png            # 拡張機能アイコン 48x48
+│   └── icon128.png           # 拡張機能アイコン 128x128
+│
+├── .wxt/                     # WXTが生成する型定義（自動生成、編集不要）
+├── .output/                  # ビルド成果物（自動生成）
+│   ├── chrome-mv3/           # Chrome版（Manifest V3）
+│   ├── firefox-mv2/          # Firefox版（Manifest V2）
+│   └── *.zip                 # 配布用ZIPファイル
+│
+├── wxt.config.ts             # WXT設定（manifest定義、ビルド設定）
+├── tsconfig.json             # TypeScript設定
+├── vitest.config.ts          # Vitest設定
+├── package.json              # 依存関係とスクリプト定義
+└── TEST_GUIDE.md             # テストガイド
+```
+
+#### アーキテクチャ概要
+
+**エントリポイント → ページ → 機能 → コア** の階層構造：
+
+1. **entrypoints/** - WXTがロードする起点。URLマッチングと初期化
+2. **pages/** - 各ページの統合ロジック。機能モジュールを組み合わせる
+3. **features/** - 独立した機能単位。単体テスト可能
+4. **core/** - 汎用ヘルパー。プロジェクト全体で再利用
+
+**依存方向**: entrypoints → pages → features → core（逆方向の依存なし）
+
+#### 新機能を追加するには？
+
+**例: 新しいページに機能を追加したい場合**
+
+1. **機能モジュール作成** - `src/features/新機能名/` に機能を実装
+2. **ページロジック作成** - `src/pages/新ページ名.ts` で機能を統合
+3. **エントリポイント作成** - `src/entrypoints/新ページ名.content.ts` でURLマッチング
+4. **テスト作成** - `test/unit.test.ts` にユニットテスト追加
+
+**例: 既存機能を改善したい場合**
+
+- レポートソート機能 → `src/features/assignments/report-sorter.ts` を編集
+- GPA計算 → `src/features/grades/gpa-solver.ts` を編集
+- 2FA自動入力 → `src/pages/login-2fa.ts` を編集（TOTPロジックは `src/core/auth/totp.ts`）
+
+**例: DOM操作ヘルパーを追加したい場合**
+
+- `src/core/dom/` に新しいヘルパーを追加
+- `src/core/dom/index.ts` でエクスポート
+
+### 開発環境のセットアップ
+
+#### 必要要件
+- Node.js 18以上
+- pnpm 8以上
+
+#### インストール
+```bash
+# リポジトリをクローン
+git clone https://github.com/yangniao23/gakujo-chan-extender.git
+cd gakujo-chan-extender
+
+# 依存関係をインストール
+pnpm install
+```
+
+### ビルド方法
+
+#### 開発モード（ホットリロード付き）
+```bash
+# Chrome用開発サーバー起動
+pnpm dev
+
+# Firefox用開発サーバー起動
+pnpm dev:firefox
+```
+
+開発サーバーが起動すると、`.output/chrome-mv3-dev/` または `.output/firefox-mv2-dev/` にビルド成果物が生成されます。
+コード変更時に自動的に再ビルドされます。
+
+#### 本番ビルド
+
+**Chrome版 (Manifest V3)**
+```bash
+# ビルドのみ
+pnpm build
+# または
+pnpm build:chrome
+
+# ビルド + ZIPパッケージ生成
+pnpm zip
+```
+
+**Firefox版 (Manifest V2)**
+```bash
+# ビルドのみ
+pnpm build:firefox
+
+# ビルド + ZIPパッケージ生成
+pnpm zip:firefox
+```
+
+#### ビルド成果物
+
+**Chrome版**
+- ビルドディレクトリ: `.output/chrome-mv3/`
+- ZIPファイル: `.output/gakujo-chan-extender-0.64.0-chrome.zip`
+  - Chrome Web Store提出用
+  - サイズ: 約19KB
+
+**Firefox版**
+- ビルドディレクトリ: `.output/firefox-mv2/`
+- ZIPファイル: 
+  - `.output/gakujo-chan-extender-0.64.0-firefox.zip` (約19KB)
+  - `.output/gakujo-chan-extender-0.64.0-sources.zip` (約264KB) - AMO審査用ソースコード
+
+### 拡張機能の読み込み（開発時）
+
+**Chrome / Edge**
+1. `chrome://extensions/` を開く
+2. 「デベロッパーモード」を有効化
+3. 「パッケージ化されていない拡張機能を読み込む」をクリック
+4. `.output/chrome-mv3/` ディレクトリを選択
+
+**Firefox**
+1. `about:debugging#/runtime/this-firefox` を開く
+2. 「一時的なアドオンを読み込む」をクリック
+3. `.output/firefox-mv2/manifest.json` を選択
+
+### テスト
+
+```bash
+# ユニットテスト実行
+pnpm test
+
+# テストUI付きで実行
+pnpm test:ui
+
+# 1回だけ実行（CI用）
+pnpm test:run
+
+# 型チェック
+pnpm type-check
+```
+
+### クリーンビルド
+```bash
+# ビルド成果物を削除
+pnpm clean
+
+# 完全クリーンビルド
+pnpm clean && pnpm install && pnpm build
+```
+
+### コードフォーマット・品質
+
+- TypeScript strict モード有効
+- すべてのモジュールは型定義済み
+- ユニットテストカバレッジ: コアロジック対象
+
+### よくある問題
+
+**Q: ビルドエラーが出る**
+```bash
+# キャッシュをクリアして再ビルド
+rm -rf .wxt .output node_modules
+pnpm install
+pnpm build
+```
+
+**Q: 型エラーが消えない**
+```bash
+# TypeScript Language Serverのリロード
+# VSCode: Cmd/Ctrl + Shift + P → "TypeScript: Restart TS Server"
+```
+
+**Q: 開発サーバーでホットリロードが効かない**
+- 拡張機能のバックグラウンドページは手動リロードが必要
+- Content scriptsは自動的に再注入される
+
+### 貢献について
+プルリクエスト歓迎です！大きな変更の場合は、先にissueで相談してください。
+
+### ライセンス
+MIT License - 詳細は[LICENSE](LICENSE)ファイルを参照

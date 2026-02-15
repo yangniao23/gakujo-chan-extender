@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- saved from url=(0071)https://gakujo.iess.niigata-u.ac.jp/campusweb/campusportal.do?page=main -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+
+
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+
+
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+
+
+
+<link rel="SHORTCUT ICON" href="https://gakujo.iess.niigata-u.ac.jp/campusweb/theme/default/image/favicon.ico">
+
+
+<meta name="format-detection" content="telephone=no">
+
+
+<title>CampusSquare for WEB [CampusSquare]</title>
+
+
+<link rel="stylesheet" href="./2FA_files/StyleSheet.css" type="text/css">
+<script type="text/javascript" src="./2FA_files/ScriptColor.js.ダウンロード"></script>
+<script type="text/javascript" src="./2FA_files/Script.js.ダウンロード"></script>
+
+
+<link rel="stylesheet" type="text/css" href="./2FA_files/jquery.cleditor.css">
+<link rel="stylesheet" type="text/css" href="./2FA_files/jquery-ui-1.8.19.custom.css">
+<link rel="stylesheet" type="text/css" href="./2FA_files/portal_body.css">
+<link rel="stylesheet" type="text/css" href="./2FA_files/portal_ajax.css">
+<link rel="stylesheet" type="text/css" href="./2FA_files/portal_logo.css">
+<link rel="stylesheet" type="text/css" href="./2FA_files/portal_tabmenu.css">
+<link rel="stylesheet" type="text/css" href="./2FA_files/portal_table.css">
+<link rel="stylesheet" type="text/css" href="./2FA_files/portal_portlet.css">
+
+<script type="text/javascript" src="./2FA_files/jquery.min.js.ダウンロード"></script>
+<script type="text/javascript" src="./2FA_files/jquery-ui-1.8.19.custom.min.js.ダウンロード"></script>
+<script type="text/javascript" src="./2FA_files/jquery.cleditor.js.ダウンロード"></script>
+<script type="text/javascript" src="./2FA_files/portal_main.js.ダウンロード"></script>
+<script type="text/javascript" src="./2FA_files/portal_common.js.ダウンロード"></script>
+<script type="text/javascript" src="./2FA_files/campus_colorpicker.js.ダウンロード"></script>
+
+
+
+<script type="text/javascript">
+
+function send(obj){
+    if(obj == 0){
+      document.getElementsByName("mode")[0].value = "doGoogleAuthLogin";
+    } else if(obj == 1){
+      location.href = "/campusweb/";
+      return false;
+    } else {
+      if(confirm('メールを送信しますか？')){
+          document.getElementsByName("mode")[0].value = "doSendSecretReset";
+      } else {
+        return false;
+      }
+    }
+    document.form.submit();
+    return false;
+}
+</script>
+<style type="text/css">
+/*2022.11.09 背景色変更 #google-authenticator-login-body { background-color: #cceecc; } */
+#google-authenticator-login-body { background-color: #ffffff; }
+</style></head>
+
+
+
+<body id="google-authenticator-login-body">
+<center>
+
+
+
+<p></p><form name="form" method="post" action="https://gakujo.iess.niigata-u.ac.jp/campusweb/campusportal.do">
+<input type="hidden" name="action" value="gal">
+<input type="hidden" name="mode" value="doGoogleAuthLogin">
+
+<font color="red">
+
+
+
+</font>
+    <center>
+            <b>Google Authenticatorで発行された6桁の認証コードを入力してください。</b>
+        <br><br>
+        <div class="row row-ninsho">
+            <div class="col s12 col-line input-field">
+                <input type="password" name="ninshoCode" size="20" maxlength="6" autocomplete="off" value="" tabindex="1">
+            </div>
+        </div>
+        <br>
+            <button type="submit" tabindex="3" class="sw10 sh2">ログイン</button>
+            <button type="button" tabindex="3" class="sw10 sh2" onclick="return send(1);">戻る</button>
+            <br><br>
+            <p>Google Authenticatorの登録を最初から行う場合はリセットしてください。<br>登録済みのメールアドレスにリセット用のURLを送信します。</p>
+            <br>
+            <div align="center">
+                <button type="button" tabindex="3" class="sw4 sh0" onclick="return send(2);">リセット</button>
+            </div>
+    </center>
+
+</form>
+</center>
+
+
+</body></html>
