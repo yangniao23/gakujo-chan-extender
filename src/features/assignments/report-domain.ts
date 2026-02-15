@@ -7,6 +7,8 @@
 
 import { TABLE_DATA_START_ROW_INDEX, TABLE_HEADER_ROW_INDEX } from '@/core/constants';
 import { updateTableRows } from '@/core/dom';
+import { getCurrentDateTimeFormatted } from '@/core/utils/date';
+import { sortBy } from 'es-toolkit';
 import {
     REPORT_COLUMN_INDEX,
     SubmissionStatus,
@@ -24,19 +26,6 @@ export interface ReportRow {
 }
 
 /**
- * 現在日時をYYYYMMDDHHmm形式で取得
- */
-export function getCurrentDateTime(): string {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const date = String(now.getDate()).padStart(2, '0');
-    const hour = String(now.getHours()).padStart(2, '0');
-    const min = String(now.getMinutes()).padStart(2, '0');
-    return `${year}${month}${date}${hour}${min}`;
-}
-
-/**
  * 一時保存の文字を青色に変更
  */
 export function setTempColorBlue(table: HTMLTableElement): void {
@@ -47,7 +36,8 @@ export function setTempColorBlue(table: HTMLTableElement): void {
         const text = cell.textContent || '';
         if (text.match(SUBMISSION_STATUS_PATTERNS.TEMP_SAVED)) {
             const savedText = text.includes('一時保存') ? '一時保存' : 'Temporarily saved';
-            cell.innerHTML = `<font color="${TEMP_SAVED_COLOR}">${savedText}</font>`;
+            cell.style.color = TEMP_SAVED_COLOR;
+            cell.textContent = savedText;
         }
     }
 }
@@ -56,7 +46,6 @@ export function setTempColorBlue(table: HTMLTableElement): void {
  * テーブルを配列に変換（メタデータ付き）
  */
 export function parseReportTable(table: HTMLTableElement): ReportRow[] {
-    const now = getCurrentDateTime();
     const rows: ReportRow[] = [];
     const colCount = table.rows[TABLE_HEADER_ROW_INDEX].cells.length;
 
@@ -89,9 +78,7 @@ export function parseReportTable(table: HTMLTableElement): ReportRow[] {
                 if (tildaIndex !== -1) {
                     deadline = text
                         .substring(tildaIndex + 1)
-                        .replace(/\//g, '')
-                        .replace(/:/g, '')
-                        .replace(/\s/g, '');
+                        .replace(/[\/\s:]/g, '');
                 }
             }
         }
@@ -114,62 +101,52 @@ export function updateReportTable(table: HTMLTableElement, rows: ReportRow[]): v
  * 提出期間でソート
  */
 export function sortReportsByDate(table: HTMLTableElement): void {
-    setTempColorBlue(table);
     const reportArray = parseReportTable(table);
-    const now = getCurrentDateTime();
+    const now = getCurrentDateTimeFormatted();
 
     // 期限内と期限切れに分割
     const active = reportArray.filter((row) => row.deadline >= now);
     const expired = reportArray.filter((row) => row.deadline < now);
 
     // それぞれをソート（締切日時 → 提出状態）
-    const sortByDeadlineAndStatus = (a: ReportRow, b: ReportRow) => {
-        const deadlineDiff = parseInt(a.deadline) - parseInt(b.deadline);
-        if (deadlineDiff !== 0) return deadlineDiff;
-        return a.status - b.status;
-    };
-
-    active.sort(sortByDeadlineAndStatus);
-    expired.sort(sortByDeadlineAndStatus);
+    const sortedActive = sortBy(active, [
+        (row) => row.deadline,
+        (row) => row.status,
+    ]);
+    const sortedExpired = sortBy(expired, [
+        (row) => row.deadline,
+        (row) => row.status,
+    ]);
 
     // 結合して更新
-    updateReportTable(table, [...active, ...expired]);
+    updateReportTable(table, [...sortedActive, ...sortedExpired]);
+    setTempColorBlue(table);
 }
 
 /**
  * 開講番号でソート
  */
 export function sortReportsByNumber(table: HTMLTableElement): void {
-    setTempColorBlue(table);
     const reportArray = parseReportTable(table);
 
-    // 開講番号でソート
-    reportArray.sort((a, b) => {
-        const aNum = a.cells[REPORT_COLUMN_INDEX.CONTENT] || '';
-        const bNum = b.cells[REPORT_COLUMN_INDEX.CONTENT] || '';
-        if (aNum < bNum) return -1;
-        if (aNum > bNum) return 1;
-        return 0;
-    });
+    const sorted = sortBy(reportArray, [
+        (row) => row.cells[REPORT_COLUMN_INDEX.CONTENT] || '',
+    ]);
 
-    updateReportTable(table, reportArray);
+    updateReportTable(table, sorted);
+    setTempColorBlue(table);
 }
 
 /**
  * タイトルでソート
  */
 export function sortReportsByTitle(table: HTMLTableElement): void {
-    setTempColorBlue(table);
     const reportArray = parseReportTable(table);
 
-    // タイトルでソート
-    reportArray.sort((a, b) => {
-        const aTitle = a.cells[REPORT_COLUMN_INDEX.TITLE] || '';
-        const bTitle = b.cells[REPORT_COLUMN_INDEX.TITLE] || '';
-        if (aTitle < bTitle) return -1;
-        if (aTitle > bTitle) return 1;
-        return 0;
-    });
+    const sorted = sortBy(reportArray, [
+        (row) => row.cells[REPORT_COLUMN_INDEX.TITLE] || '',
+    ]);
 
-    updateReportTable(table, reportArray);
+    updateReportTable(table, sorted);
+    setTempColorBlue(table);
 }
