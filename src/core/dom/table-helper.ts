@@ -3,6 +3,7 @@
  */
 
 import { BaseTableRow } from '@/core/types';
+import { TABLE_HEADER_ROW_INDEX, TABLE_DATA_START_ROW_INDEX } from '@/core/constants';
 
 /**
  * テーブルの行をHTML状態で配列に抽出
@@ -15,10 +16,10 @@ export function extractTableRowsRaw(table: HTMLTableElement): string[][] {
     }
 
     const result: string[][] = [];
-    const colCount = table.rows[0].cells.length;
+    const colCount = table.rows[TABLE_HEADER_ROW_INDEX].cells.length;
 
-    // ヘッダー行（i=0）をスキップ
-    for (let i = 1; i < table.rows.length; i++) {
+    // ヘッダー行をスキップ
+    for (let i = TABLE_DATA_START_ROW_INDEX; i < table.rows.length; i++) {
         const row = table.rows[i];
         const cells: string[] = [];
 
@@ -43,10 +44,10 @@ export function extractTableRowsText(table: HTMLTableElement): string[][] {
     }
 
     const result: string[][] = [];
-    const colCount = table.rows[0].cells.length;
+    const colCount = table.rows[TABLE_HEADER_ROW_INDEX].cells.length;
 
-    // ヘッダー行（i=0）をスキップ
-    for (let i = 1; i < table.rows.length; i++) {
+    // ヘッダー行をスキップ
+    for (let i = TABLE_DATA_START_ROW_INDEX; i < table.rows.length; i++) {
         const row = table.rows[i];
         const cells: string[] = [];
 
@@ -84,10 +85,10 @@ export function updateTableRows(table: HTMLTableElement, rows: string[][]): void
         return;
     }
 
-    const colCount = table.rows[0].cells.length;
+    const colCount = table.rows[TABLE_HEADER_ROW_INDEX].cells.length;
 
-    for (let i = 0; i < rows.length; i++) {
-        const row = table.rows[i + 1]; // ヘッダー分をオフセット
+    for (let i = TABLE_DATA_START_ROW_INDEX; i < rows.length; i++) {
+        const row = table.rows[i]; // ヘッダー行をオフセット
         if (!row) break;
 
         for (let j = 0; j < colCount; j++) {

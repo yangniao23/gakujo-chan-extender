@@ -1,0 +1,6954 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><script type="text/javascript" src="inject.js"></script><head>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        
+        
+        
+        
+        <meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+
+        
+        
+        <link rel="SHORTCUT ICON" href="https://gakujo.iess.niigata-u.ac.jp/campusweb/theme/default/image/favicon.ico">
+        
+        
+        <meta name="format-detection" content="telephone=no">
+        
+        
+    
+         
+        <title>単位修得状況照会</title>
+        
+      
+      
+        <link rel="stylesheet" href="StyleSheet.css" type="text/css">
+        
+        <script type="text/javascript" src="ScriptColor.js"></script>
+        <script type="text/javascript" src="Script.js"></script>
+        
+        
+        <link rel="stylesheet" type="text/css" href="jquery.cleditor.css">
+        
+        
+        
+        <link rel="stylesheet" type="text/css" href="jquery-ui-1.8.19.custom.css">
+        
+        
+        <link rel="stylesheet" type="text/css" href="portal_body.css">
+        <link rel="stylesheet" type="text/css" href="portal_table.css">
+        <link rel="stylesheet" type="text/css" href="campussquare_data/wrapperStyleSheet.css">
+        <script type="text/javascript" src="jquery.min.js"></script>
+        <script type="text/javascript" src="jquery-ui-1.8.19.custom.min.js"></script>
+        <script type="text/javascript" src="jquery.cleditor.js"></script>
+        <script type="text/javascript" src="portal_common.js"></script>
+      
+        
+        <script type="text/javascript" src="campussquare_data/main_portlet.js"></script>
+        
+        
+        
+        
+        
+        <style type="text/css">
+body.logout { background-color: #ffffff; }
+body {  background: none; background-image: none; background-color: #ffffff; }
+.portlet-title { display: block; }
+.portlet-title-linker { display: block; }
+.portlet-title {  background: none; background-image: none; background-color: #dddddd; }
+.portlet-title { border-radius: 10px 10px 10px 10px; }
+.portlet-title { color: black; }
+</style>
+
+    <script language="JavaScript">
+<!--
+
+function callIndicate() {
+	document.BackForm._eventId.value = 'eventBackIndicate';
+	document.BackForm.submit();
+	return false;
+}
+function exec(eventId) {
+  document.execForm._eventId.value = eventId;
+  document.execForm.submit();
+  return false;
+}
+
+function jump(url){
+	// 別ページに移動させる
+  window.open( url, "_target" ) ;
+  return false;
+}
+
+
+function popDisp(eventId) {
+        var url = "/campusweb/campussquare.do?"
+               + "&_eventId="+ eventId
+               + "&_flowExecutionKey=_c74687B04-DFD4-5055-93C5-978F94F252DD_k093ECA00-41CB-8230-A02C-4035E7D42FC1"
+        var opt = "width=500,height=500,location=0,menubar=0,scrollbars=1,resizable=1,toolbar=1";
+        SubWin = window.open(url, "PopWindow", opt);
+  return false;
+}
+
+function popTokuten(kamokuCd,seqNo) {
+    var url = "/campusweb/campussquare.do?"
+        + "&_eventId=popTokutenBunpuGraph"
+        + "&_flowExecutionKey=_c74687B04-DFD4-5055-93C5-978F94F252DD_k093ECA00-41CB-8230-A02C-4035E7D42FC1"
+        + "&kamokuCd=" + kamokuCd
+        + "&seqNo=" + seqNo;
+
+ var opt = "width=500,height=500,location=0,menubar=0,scrollbars=1,resizable=1,toolbar=1";
+ SubWin = window.open(url, "PopWindow", opt);
+return false;
+}
+//-->
+</script></head>
+    
+    
+    
+
+
+
+
+
+    
+
+
+ 
+
+
+<body>
+  
+
+
+
+
+
+
+    
+    
+    
+    <div class="portlet-title" id="main-portlet-title">
+        <img src="func_refer4.gif"><span>単位修得状況照会</span>
+    </div>
+
+    <form name="TimeoutForm" style="margin: 0px; padding: 0px;">
+        <input type="hidden" name="status" value="0">
+    </form>
+
+
+
+
+
+    
+   <p></p>
+
+    
+    
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        
+                        <table border="0" cellspacing="1" cellpadding="1">
+                          <tbody>
+                            <tr class="seiseki">
+                               <th class="seiseki-head" height="25" width="100">
+                                 氏名
+                               </th>
+                               <td width="270">
+                                 
+                                   湯嶋　皓騎
+                                 
+                               </td>
+                               <th class="seiseki-head" width="100">在籍番号</th>
+                               <td width="270">T25B907A</td>
+                            </tr>
+                            <tr class="seiseki">
+                               <th class="seiseki-head" height="25">所属</th>
+                               <td>工学部工学科知能情報システムプログラム</td>
+                               <th class="seiseki-head">学年</th>
+                               <td>3年</td>
+                            </tr>
+                            <tr class="seiseki">
+                              <th class="seiseki-head" height="25">年度・学期</th>
+                               <td>
+                                 
+                                   
+                                     指示なし
+                                   
+                                   
+                                 
+                               </td>
+                               <th class="seiseki-head">修得単位数</th>
+                               <td>
+                                 
+                                 112.0&nbsp;(うち、遠隔授業科目の修得単位数 2.0)
+                               </td>
+                             </tr>
+                         </tbody>
+                        </table>
+                    </td>
+                    <td>&nbsp;&nbsp;</td>
+                    <td valign="bottom">
+                        
+                        <table cellspacing="1" cellpadding="3" hspace="0" vspace="0" style="border: 1px dotted;">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        ＜　凡　例　＞
+                                    </td>
+                                    <td align="center">◆</td>
+                                    <td>：</td>
+                                    <td>
+                                        遠隔授業科目
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    
+
+   <p></p>
+
+   <form id="taniReferListForm" name="execForm" method="post" action="/campusweb/campussquare.do">
+   <input type="hidden" name="_flowExecutionKey" value="_c74687B04-DFD4-5055-93C5-978F94F252DD_k093ECA00-41CB-8230-A02C-4035E7D42FC1">
+   <input type="hidden" name="_eventId" value="execShikaku">
+   <div style="text-align: right">
+     
+     <input type="submit" value="CSVファイル出力" onclick="return exec('execCsv');" class="ui-button ui-widget ui-state-default ui-corner-all" role="button" aria-disabled="false">
+     <input type="submit" value="Excelファイル出力" onclick="return exec('execExcel');" class="ui-button ui-widget ui-state-default ui-corner-all" role="button" aria-disabled="false">
+     <br>
+     <br>
+
+
+
+
+
+
+
+
+
+   </div>
+   
+   <div style="text-align: left; float:left">
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;科目表示順：
+     <select id="sort" name="sort" onchange="return exec('changeOrder');">
+       
+         <option value="3" selected="selected">科目大区分、科目中区分、科目小区分（昇順）</option>
+       
+         <option value="4">修得年度、修得学期（降順）</option>
+       
+         <option value="5">修得年度、修得学期（昇順）</option>
+       
+     </select>
+   </div>
+   <div style="text-align: right; float: right">
+     
+     
+     
+     
+     <input type="button" value="成績確認表" onclick="return exec('execSeiseki');" class="ui-button ui-widget ui-state-default ui-corner-all" role="button" aria-disabled="false">
+     
+     <input type="button" value="GPA" onclick="return popDisp('popGpa');" class="ui-button ui-widget ui-state-default ui-corner-all" role="button" aria-disabled="false">
+     <input type="button" value="年別単位" onclick="return popDisp('popNenbethu');" class="ui-button ui-widget ui-state-default ui-corner-all" role="button" aria-disabled="false">
+     <br>
+     <br>
+   </div>
+   </form>
+   
+   
+     
+<!-- 新教務情報システム構築 -->
+<table border="1" cellspacing="0" cellpadding="1" width="1200" class="normal">
+    <thead>
+        <tr>
+            <th width="40" height="25" class="seiseki-head">No.</th>
+            <th width="50" class="seiseki-head">分野</th>
+            <th width="50" class="seiseki-head">水準</th>
+            <th width="100" class="seiseki-head">開講番号</th>
+            <th width="350" class="seiseki-head">科目</th>
+            <th width="200" class="seiseki-head">担当教員</th>
+<!--             <th width="100" class="seiseki-head">科目大区分</th> -->
+<!--             <th width="100" class="seiseki-head">科目中区分</th> -->
+<!--             <th width="100" class="seiseki-head">科目小区分</th> -->
+            <th width="300" class="seiseki-head">科目区分</th>
+            <th width="80" class="seiseki-head">必選区分</th>
+            <th width="120" class="seiseki-head">単位数</th>
+            <th width="50" class="seiseki-head">得点</th>
+            <th width="50" class="seiseki-head">評語</th>
+            <th width="50" class="seiseki-head">合否</th>
+            <th width="120" class="seiseki-head">GP
+ GPA:3.9333</th>
+            <th width="120" class="seiseki-head">修得年度</th>
+            <th width="120" class="seiseki-head">修得学期</th>
+            <th width="120" class="seiseki-head">読替前科目</th>
+            <th width="120" class="seiseki-head">読替後科目</th>
+            <th width="120" class="seiseki-head">報告日</th>
+            <th width="120" class="seiseki-head">試験種別</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">1</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                
+                  254G3524
+                
+              </td>
+              <td>データサイエンス総論Ⅱ</td>
+              <td>齋藤　裕</td>
+
+
+
+              <td>情報リテラシー／自然系共通専門基礎</td>
+              <td>選択</td>
+              <td align="center">1.0</td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td><td>
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">2</td>
+              <td>
+              82
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                
+                  254G8501
+                
+              </td>
+              <td>原子力と倫理</td>
+              <td>宮坂　道夫</td>
+
+
+
+              <td>医歯学（医学）</td>
+              <td>選択</td>
+              <td align="center">1.0</td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td><td>
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">3</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>14</td>
+              <td>
+                
+                
+                  254T4016
+                
+              </td>
+              <td>知能情報システム実験IV</td>
+              <td>今村　孝</td>
+
+
+
+              <td>専門応用科目群（必修）</td>
+              <td>必修</td>
+              <td align="center">1.0</td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td><td>
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">4</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>14</td>
+              <td>
+                
+                
+                  250T4017
+                
+              </td>
+              <td>研究室体験実習</td>
+              <td>山田　寛喜</td>
+
+
+
+              <td>専門応用科目群（必修）</td>
+              <td>必修</td>
+              <td align="center">1.0</td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td><td>
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">5</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>04</td>
+              <td>
+                
+                
+                  254T4028
+                
+              </td>
+              <td>コンピュータアーキテクチャ</td>
+              <td>今井　博英</td>
+
+
+
+              <td>専門応用科目群（選択必修）</td>
+              <td>選択必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td><td>
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">6</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>04</td>
+              <td>
+                
+                
+                  254T4032
+                
+              </td>
+              <td>情報システムとセキュリティ</td>
+              <td>宮北　和之</td>
+
+
+
+              <td>専門応用科目群（選択必修）</td>
+              <td>選択必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td><td>
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">7</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>04</td>
+              <td>
+                
+                
+                  254T4037
+                
+              </td>
+              <td>データベース</td>
+              <td>阿部　貴志</td>
+
+
+
+              <td>専門応用科目群（選択）</td>
+              <td>選択</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td><td>
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td>本試験</td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">8</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>04</td>
+              <td>
+                
+                
+                  250T4043
+                
+              </td>
+              <td>マルチメディアコンピューティング</td>
+              <td>飯田　佑輔</td>
+
+
+
+              <td>専門応用科目群（選択）</td>
+              <td>選択</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+              </td><td>
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">9</td>
+              <td>
+              14
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0GCA0001','1');"></a>
+                  
+                
+                
+              </td>
+              <td>健康スポーツ科学実習 I</td>
+              <td></td>
+
+
+
+              <td>健康・スポーツ（体育実技）</td>
+              <td>必修</td>
+              <td align="center">1.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">10</td>
+              <td>
+              14
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0GCB0001','1');"></a>
+                  
+                
+                
+              </td>
+              <td>健康スポーツ科学講義</td>
+              <td></td>
+
+
+
+              <td>健康・スポーツ</td>
+              <td>選択</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">11</td>
+              <td>
+              76
+              
+              
+              </td>
+              <td>11</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0GGA0051','1');"></a>
+                  
+                
+                
+              </td>
+              <td>工学リテラシー入門（情報電子分野）</td>
+              <td></td>
+
+
+
+              <td>大学学習法（大学学習法）</td>
+              <td>必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">12</td>
+              <td>
+              70
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0GAA0173','1');"></a>
+                  
+                
+                
+              </td>
+              <td>アカデミック英語入門R</td>
+              <td></td>
+
+
+
+              <td>英語（AR，AL，AW，基礎英語）</td>
+              <td>選択必修</td>
+              <td align="center">1.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">13</td>
+              <td>
+              70
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0GAA0175','1');"></a>
+                  
+                
+                
+              </td>
+              <td>アカデミック英語入門L</td>
+              <td></td>
+
+
+
+              <td>英語（AR，AL，AW，基礎英語）</td>
+              <td>選択必修</td>
+              <td align="center">1.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">14</td>
+              <td>
+              71
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0GBL0004','1');">251G1033</a>
+                  
+                
+                
+              </td>
+              <td>ドイツ語圏グローバル理解 4（東西ドイツの分断と統一って？）</td>
+              <td>倉持　有香子</td>
+
+
+
+              <td>初修外国語（グローバル理解）</td>
+              <td>選択</td>
+              <td align="center">1.0</td>
+              <td align="center">
+                
+                  90
+                
+              </td>
+              <td align="center">
+                
+                  秀
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+                  4.0
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/06/10
+                
+              </td>
+              <td>本試験</td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">15</td>
+              <td>
+              71
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0GBL0005','1');">252G1036</a>
+                  
+                
+                
+              </td>
+              <td>ドイツ語圏グローバル理解 5（映像で見る日独文化比較）</td>
+              <td>小林　りり子</td>
+
+
+
+              <td>初修外国語（グローバル理解）</td>
+              <td>選択</td>
+              <td align="center">1.0</td>
+              <td align="center">
+                
+                  97
+                
+              </td>
+              <td align="center">
+                
+                  秀
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+                  4.7
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/08/09
+                
+              </td>
+              <td>本試験</td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">16</td>
+              <td>
+              71
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0GBL0017','1');">252G1014</a>
+                  
+                
+                
+              </td>
+              <td>中国語圏グローバル理解 5（中国の生活と経済）</td>
+              <td>徐　偉</td>
+
+
+
+              <td>初修外国語（グローバル理解）</td>
+              <td>選択</td>
+              <td align="center">1.0</td>
+              <td align="center">
+                
+                  91
+                
+              </td>
+              <td align="center">
+                
+                  秀
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+                  4.1
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/08/18
+                
+              </td>
+              <td>本試験</td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">17</td>
+              <td>
+              75
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0GEA0040','1');">250G3905</a>
+                  
+                
+                
+              </td>
+              <td>日本酒学B</td>
+              <td>柿原　嘉人</td>
+
+
+
+              <td>新潟大学個性化科目（地域入門）</td>
+              <td>選択</td>
+              <td align="center">1.0</td>
+              <td align="center">
+                
+                  90
+                
+              </td>
+              <td align="center">
+                
+                  秀
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+                  4.0
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第2学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/09/18
+                
+              </td>
+              <td>本試験</td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">18</td>
+              <td>
+              75
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0GEA0046','1');">250G3204</a>
+                  
+                
+                
+              </td>
+              <td>日本酒学A</td>
+              <td>岸　保行</td>
+
+
+
+              <td>新潟大学個性化科目（地域入門）</td>
+              <td>選択</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  90
+                
+              </td>
+              <td align="center">
+                
+                  秀
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+                  4.0
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/08/07
+                
+              </td>
+              <td>本試験</td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">19</td>
+              <td>
+              39
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0GMA0066','1');">250G7053</a>
+                  
+                
+                
+              </td>
+              <td>心と社会◆</td>
+              <td>福島　治</td>
+
+
+
+              <td>人文社会・教育科学</td>
+              <td>選択</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  91
+                
+              </td>
+              <td align="center">
+                
+                  秀
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+                  4.1
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/08/13
+                
+              </td>
+              <td>本試験</td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">20</td>
+              <td>
+              70
+              
+              
+              </td>
+              <td>02</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0GMA0224','1');"></a>
+                  
+                
+                
+              </td>
+              <td>英語基礎 L</td>
+              <td></td>
+
+
+
+              <td>人文社会・教育科学</td>
+              <td>選択</td>
+              <td align="center">1.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">21</td>
+              <td>
+              70
+              
+              
+              </td>
+              <td>02</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0GMA0225','1');"></a>
+                  
+                
+                
+              </td>
+              <td>英語基礎 R</td>
+              <td></td>
+
+
+
+              <td>人文社会・教育科学</td>
+              <td>選択</td>
+              <td align="center">1.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">22</td>
+              <td>
+              34
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0GPA0058','1');">253G7540</a>
+                  
+                
+                
+              </td>
+              <td>日本国憲法</td>
+              <td>関　雅夫</td>
+
+
+
+              <td>人文社会・教育科学</td>
+              <td>選択</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  80
+                
+              </td>
+              <td align="center">
+                
+                  優
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+                  3.0
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第2学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/12/04
+                
+              </td>
+              <td>本試験</td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">23</td>
+              <td>
+              29
+              
+              ,30
+              
+              
+              </td>
+              <td>13</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0H28B311','1');"></a>
+                  
+                
+                
+              </td>
+              <td>日本言語文化実習Ａ</td>
+              <td></td>
+
+
+
+              <td>人文社会・教育科学</td>
+              <td>選択</td>
+              <td align="center">1.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">24</td>
+              <td>
+              15
+              
+              
+              </td>
+              <td>14</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0K22L005','1');"></a>
+                  
+                
+                
+              </td>
+              <td>電気実習I</td>
+              <td></td>
+
+
+
+              <td>人文社会・教育科学</td>
+              <td>選択</td>
+              <td align="center">1.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">25</td>
+              <td>
+              41
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0GJA0011','1');"></a>
+                  
+                
+                
+              </td>
+              <td>基礎数理Ａ I</td>
+              <td></td>
+
+
+
+              <td>自然科学（理学）</td>
+              <td>選択</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">26</td>
+              <td>
+              41
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0GJA0012','1');"></a>
+                  
+                
+                
+              </td>
+              <td>基礎数理Ａ II</td>
+              <td></td>
+
+
+
+              <td>自然科学（理学）</td>
+              <td>選択</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">27</td>
+              <td>
+              41
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0GJA0072','1');"></a>
+                  
+                
+                
+              </td>
+              <td>基礎数理B</td>
+              <td></td>
+
+
+
+              <td>自然科学（理学）</td>
+              <td>選択</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">28</td>
+              <td>
+              43
+              
+              
+              </td>
+              <td>04</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0S7DB007','1');"></a>
+                  
+                
+                
+              </td>
+              <td>電磁気学IA</td>
+              <td></td>
+
+
+
+              <td>自然科学（理学）</td>
+              <td>選択</td>
+              <td align="center">1.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">29</td>
+              <td>
+              43
+              
+              
+              </td>
+              <td>04</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0S7DB017','1');">251S2517</a>
+                  
+                
+                
+              </td>
+              <td>振動論と微分方程式</td>
+              <td>早坂　圭司</td>
+
+
+
+              <td>自然科学（理学）</td>
+              <td>選択</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  88
+                
+              </td>
+              <td align="center">
+                
+                  優
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+                  3.8
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/06/23
+                
+              </td>
+              <td>本試験</td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">30</td>
+              <td>
+              50
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0GKA0016','1');"></a>
+                  
+                
+                
+              </td>
+              <td>くらしを支える機械システム工学</td>
+              <td></td>
+
+
+
+              <td>自然科学（工学）</td>
+              <td>選択</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">31</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0GDA0001','1');"></a>
+                  
+                
+                
+              </td>
+              <td>情報処理概論Ａ I</td>
+              <td></td>
+
+
+
+              <td>情報リテラシー／自然系共通専門基礎</td>
+              <td>選択</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">32</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0GDA0014','1');">253G3516</a>
+                  
+                
+                
+              </td>
+              <td>データサイエンス総論Ⅰ</td>
+              <td>齋藤　裕</td>
+
+
+
+              <td>情報リテラシー／自然系共通専門基礎</td>
+              <td>選択</td>
+              <td align="center">1.0</td>
+              <td align="center">
+                
+                  86
+                
+              </td>
+              <td align="center">
+                
+                  優
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+                  3.6
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第2学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/12/05
+                
+              </td>
+              <td>本試験</td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">33</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>13</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0GDA0023','1');">252G3005</a>
+                  
+                
+                
+              </td>
+              <td>エンジニアのためのデータサイエンス入門（情報電子分野）</td>
+              <td>山﨑　達也</td>
+
+
+
+              <td>情報リテラシー／自然系共通専門基礎</td>
+              <td>必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  69
+                
+              </td>
+              <td align="center">
+                
+                  可
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+                  1.9
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/08/16
+                
+              </td>
+              <td>本試験</td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">34</td>
+              <td>
+              43
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0GHB0005','1');"></a>
+                  
+                
+                
+              </td>
+              <td>物理学基礎BⅠ</td>
+              <td></td>
+
+
+
+              <td>情報リテラシー／自然系共通専門基礎</td>
+              <td>選択</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">35</td>
+              <td>
+              43
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0GHB0007','1');"></a>
+                  
+                
+                
+              </td>
+              <td>物理学基礎BⅡ</td>
+              <td></td>
+
+
+
+              <td>情報リテラシー／自然系共通専門基礎</td>
+              <td>選択</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">36</td>
+              <td>
+              41
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0T25I006','1');"></a>
+                  
+                
+                
+              </td>
+              <td>応用数理Ｂ</td>
+              <td></td>
+
+
+
+              <td>専門基礎科目群（選択必修）</td>
+              <td>選択必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">37</td>
+              <td>
+              41
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0T25I007','1');">253T4005</a>
+                  
+                
+                
+              </td>
+              <td>応用数理Ｃ</td>
+              <td>酒匂　宏樹</td>
+
+
+
+              <td>専門基礎科目群（選択必修）</td>
+              <td>選択必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  68
+                
+              </td>
+              <td align="center">
+                
+                  可
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+                  1.8
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第2学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/12/08
+                
+              </td>
+              <td>本試験</td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">38</td>
+              <td>
+              43
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0T25I015','1');">252T4007</a>
+                  
+                
+                
+              </td>
+              <td>物理工学II</td>
+              <td>大河　正志</td>
+
+
+
+              <td>専門基礎科目群（選択必修）</td>
+              <td>選択必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  93
+                
+              </td>
+              <td align="center">
+                
+                  秀
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+                  4.3
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/08/04
+                
+              </td>
+              <td>本試験</td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">39</td>
+              <td>
+              49
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0T25I025','1');"></a>
+                  
+                
+                
+              </td>
+              <td>電気数理I</td>
+              <td></td>
+
+
+
+              <td>専門基礎科目群（選択必修）</td>
+              <td>選択必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">40</td>
+              <td>
+              49
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0T25I026','1');"></a>
+                  
+                
+                
+              </td>
+              <td>電気数理II</td>
+              <td></td>
+
+
+
+              <td>専門基礎科目群（選択必修）</td>
+              <td>選択必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">41</td>
+              <td>
+              41
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T25I001','1');"></a>
+                  
+                
+                
+              </td>
+              <td>応用数理Ｅ</td>
+              <td></td>
+
+
+
+              <td>専門基礎科目群（選択必修）</td>
+              <td>選択必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">42</td>
+              <td>
+              51
+              
+              ,43
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T25I002','1');"></a>
+                  
+                
+                
+              </td>
+              <td>電磁気学</td>
+              <td></td>
+
+
+
+              <td>専門基礎科目群（選択必修）</td>
+              <td>選択必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">43</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>14</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T21I001','1');"></a>
+                  
+                
+                
+              </td>
+              <td>プログラミングＡI</td>
+              <td></td>
+
+
+
+              <td>専門応用科目群（必修）</td>
+              <td>必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">44</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>14</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T21I002','1');"></a>
+                  
+                
+                
+              </td>
+              <td>プログラミングＡII</td>
+              <td></td>
+
+
+
+              <td>専門応用科目群（必修）</td>
+              <td>必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">45</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>14</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T21I003','1');"></a>
+                  
+                
+                
+              </td>
+              <td>情報システム基礎実習</td>
+              <td></td>
+
+
+
+              <td>専門応用科目群（必修）</td>
+              <td>必修</td>
+              <td align="center">1.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">46</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>14</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T21I004','1');">251T4013</a>
+                  
+                
+                
+              </td>
+              <td>知能情報システム実験I</td>
+              <td>中野　敬介</td>
+
+
+
+              <td>専門応用科目群（必修）</td>
+              <td>必修</td>
+              <td align="center">1.0</td>
+              <td align="center">
+                
+                  100
+                
+              </td>
+              <td align="center">
+                
+                  秀
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+                  5.0
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/06/13
+                
+              </td>
+              <td>本試験</td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">47</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>14</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T21I005','1');">252T4014</a>
+                  
+                
+                
+              </td>
+              <td>知能情報システム実験II</td>
+              <td>中野　敬介</td>
+
+
+
+              <td>専門応用科目群（必修）</td>
+              <td>必修</td>
+              <td align="center">1.0</td>
+              <td align="center">
+                
+                  88
+                
+              </td>
+              <td align="center">
+                
+                  優
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+                  3.8
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/08/18
+                
+              </td>
+              <td>本試験</td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">48</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>14</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T21I006','1');">253T4015</a>
+                  
+                
+                
+              </td>
+              <td>知能情報システム実験III</td>
+              <td>今村　孝</td>
+
+
+
+              <td>専門応用科目群（必修）</td>
+              <td>必修</td>
+              <td align="center">1.0</td>
+              <td align="center">
+                
+                  100
+                
+              </td>
+              <td align="center">
+                
+                  秀
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+                  5.0
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第2学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/12/29
+                
+              </td>
+              <td>本試験</td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">49</td>
+              <td>
+              49
+              
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T23N009','1');"></a>
+                  
+                
+                
+              </td>
+              <td>国際工学概論</td>
+              <td></td>
+
+
+
+              <td>専門応用科目群（必修）</td>
+              <td>必修</td>
+              <td align="center">1.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">50</td>
+              <td>
+              49
+              
+              
+              </td>
+              <td>13</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T21N001','1');"></a>
+                  
+                
+                
+              </td>
+              <td>総合工学概論</td>
+              <td></td>
+
+
+
+              <td>専門応用科目群（必修・工学科共通）</td>
+              <td>必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">51</td>
+              <td>
+              49
+              
+              
+              </td>
+              <td>13</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T21N002','1');"></a>
+                  
+                
+                
+              </td>
+              <td>総合技術科学演習</td>
+              <td></td>
+
+
+
+              <td>専門応用科目群（必修・工学科共通）</td>
+              <td>必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">52</td>
+              <td>
+              49
+              
+              
+              </td>
+              <td>13</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T21N003','1');"></a>
+                  
+                
+                
+              </td>
+              <td>技術者の心がまえ</td>
+              <td></td>
+
+
+
+              <td>専門応用科目群（必修・工学科共通）</td>
+              <td>必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">53</td>
+              <td>
+              49
+              
+              
+              </td>
+              <td>13</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T21N004','1');"></a>
+                  
+                
+                
+              </td>
+              <td>知的財産概論</td>
+              <td></td>
+
+
+
+              <td>専門応用科目群（必修・工学科共通）</td>
+              <td>必修</td>
+              <td align="center">1.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">54</td>
+              <td>
+              49
+              
+              
+              </td>
+              <td>13</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T21N005','1');"></a>
+                  
+                
+                
+              </td>
+              <td>情報セキュリティ概論</td>
+              <td></td>
+
+
+
+              <td>専門応用科目群（必修・工学科共通）</td>
+              <td>必修</td>
+              <td align="center">1.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">55</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>04</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0T21I545','1');"></a>
+                  
+                
+                
+              </td>
+              <td>データ構造とアルゴリズム</td>
+              <td></td>
+
+
+
+              <td>専門応用科目群（選択必修）</td>
+              <td>選択必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">56</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>04</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0T21I552','1');">253T4026</a>
+                  
+                
+                
+              </td>
+              <td>形式言語とオートマトン</td>
+              <td>青戸　等人</td>
+
+
+
+              <td>専門応用科目群（選択必修）</td>
+              <td>選択必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  100
+                
+              </td>
+              <td align="center">
+                
+                  秀
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+                  5.0
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第2学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2026/01/12
+                
+              </td>
+              <td>本試験</td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">57</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>04</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0T22I240','1');">252T4030</a>
+                  
+                
+                
+              </td>
+              <td>情報理論</td>
+              <td>山田　寛喜</td>
+
+
+
+              <td>専門応用科目群（選択必修）</td>
+              <td>選択必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  90
+                
+              </td>
+              <td align="center">
+                
+                  秀
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+                  4.0
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/08/17
+                
+              </td>
+              <td>本試験</td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">58</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>04</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0T22I486','1');"></a>
+                  
+                
+                
+              </td>
+              <td>離散数学</td>
+              <td></td>
+
+
+
+              <td>専門応用科目群（選択必修）</td>
+              <td>選択必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">59</td>
+              <td>
+              51
+              
+              
+              </td>
+              <td>04</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0T22I502','1');"></a>
+                  
+                
+                
+              </td>
+              <td>コンピュータネットワーク</td>
+              <td></td>
+
+
+
+              <td>専門応用科目群（選択必修）</td>
+              <td>選択必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">60</td>
+              <td>
+              51
+              
+              
+              </td>
+              <td>04</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0T22I549','1');"></a>
+                  
+                
+                
+              </td>
+              <td>信号処理</td>
+              <td></td>
+
+
+
+              <td>専門応用科目群（選択必修）</td>
+              <td>選択必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">61</td>
+              <td>
+              51
+              
+              ,10
+              
+              
+              ,49
+              
+              </td>
+              <td>03</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T22B001','1');"></a>
+                  
+                
+                
+              </td>
+              <td>電子情報通信概論</td>
+              <td></td>
+
+
+
+              <td>専門応用科目群（選択必修）</td>
+              <td>選択必修</td>
+              <td align="center">1.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">62</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>13</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T22B003','1');"></a>
+                  
+                
+                
+              </td>
+              <td>コンピュータ基礎</td>
+              <td></td>
+
+
+
+              <td>専門応用科目群（選択必修）</td>
+              <td>選択必修</td>
+              <td align="center">1.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">63</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>04</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T22I001','1');">251T4020</a>
+                  
+                
+                
+              </td>
+              <td>情報数学</td>
+              <td>山田　寛喜</td>
+
+
+
+              <td>専門応用科目群（選択必修）</td>
+              <td>選択必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  95
+                
+              </td>
+              <td align="center">
+                
+                  秀
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+                  4.5
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/06/10
+                
+              </td>
+              <td>本試験</td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">64</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>04</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T22I002','1');"></a>
+                  
+                
+                
+              </td>
+              <td>電気回路</td>
+              <td></td>
+
+
+
+              <td>専門応用科目群（選択必修）</td>
+              <td>選択必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">65</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>04</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T22I003','1');"></a>
+                  
+                
+                
+              </td>
+              <td>論理回路</td>
+              <td></td>
+
+
+
+              <td>専門応用科目群（選択必修）</td>
+              <td>選択必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">66</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>04</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T22I004','1');"></a>
+                  
+                
+                
+              </td>
+              <td>技術英語</td>
+              <td></td>
+
+
+
+              <td>専門応用科目群（選択必修）</td>
+              <td>選択必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">67</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>04</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T22I006','1');">251T4033</a>
+                  
+                
+                
+              </td>
+              <td>データ工学</td>
+              <td>阿部　貴志</td>
+
+
+
+              <td>専門応用科目群（選択必修）</td>
+              <td>選択必修</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  93
+                
+              </td>
+              <td align="center">
+                
+                  秀
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+                  4.3
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/06/25
+                
+              </td>
+              <td>本試験</td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">68</td>
+              <td>
+              51
+              
+              
+              </td>
+              <td>04</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('0T22E349','1');">253T3039</a>
+                  
+                
+                
+              </td>
+              <td>画像情報工学</td>
+              <td>村松　正吾</td>
+
+
+
+              <td>専門応用科目群（選択）</td>
+              <td>選択</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  92
+                
+              </td>
+              <td align="center">
+                
+                  秀
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+                  4.2
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第2学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/12/04
+                
+              </td>
+              <td>本試験</td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">69</td>
+              <td>
+              14
+              
+              
+              </td>
+              <td>14</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T22F047','1');">250T7058</a>
+                  
+                
+                
+              </td>
+              <td>ラケットスポーツ</td>
+              <td>牛山　幸彦</td>
+
+
+
+              <td>専門応用科目群（選択）</td>
+              <td>選択</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  88
+                
+              </td>
+              <td align="center">
+                
+                  優
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+                  3.8
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/08/19
+                
+              </td>
+              <td>本試験</td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">70</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>04</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T23I003','1');"></a>
+                  
+                
+                
+              </td>
+              <td>基礎電子回路</td>
+              <td></td>
+
+
+
+              <td>専門応用科目群（選択）</td>
+              <td>選択</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">71</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>04</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T23I004','1');"></a>
+                  
+                
+                
+              </td>
+              <td>数値計算プログラミング</td>
+              <td></td>
+
+
+
+              <td>専門応用科目群（選択）</td>
+              <td>選択</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">72</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>04</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T23I006','1');"></a>
+                  
+                
+                
+              </td>
+              <td>ロボティクス・メカトロニクス</td>
+              <td></td>
+
+
+
+              <td>専門応用科目群（選択）</td>
+              <td>選択</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">73</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>04</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T23I007','1');"></a>
+                  
+                
+                
+              </td>
+              <td>制御工学</td>
+              <td></td>
+
+
+
+              <td>専門応用科目群（選択）</td>
+              <td>選択</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">74</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>04</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T23I011','1');"></a>
+                  
+                
+                
+              </td>
+              <td>電子デバイス</td>
+              <td></td>
+
+
+
+              <td>専門応用科目群（選択）</td>
+              <td>選択</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                  認定
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第1学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2025/04/18
+                
+              </td>
+              <td></td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+              <td height="25" align="center">75</td>
+              <td>
+              10
+              
+              
+              </td>
+              <td>04</td>
+              <td>
+                
+                  
+                    <a href="#" onclick="popTokuten('2T23I012','1');">253T4047</a>
+                  
+                
+                
+              </td>
+              <td>プログラミングＡIII</td>
+              <td>青戸　等人</td>
+
+
+
+              <td>専門応用科目群（選択）</td>
+              <td>選択</td>
+              <td align="center">2.0</td>
+              <td align="center">
+                
+                  100
+                
+              </td>
+              <td align="center">
+                
+                  秀
+                
+              </td>
+              <td align="center">
+                
+                  合
+                  
+                
+              </td>
+              <td align="center">
+                
+                  5.0
+                
+              </td>
+              <td align="center">
+                
+                  2025
+                
+              </td>
+              <td align="center">
+                
+                  第2学期</td>
+                
+              <td>
+                
+                  
+                
+              </td>
+              <td>
+                
+                  
+                
+              </td>
+              <td align="center">
+                
+                    2026/01/12
+                
+              </td>
+              <td>本試験</td>
+            </tr>
+        
+        
+    </tbody>
+</table>
+
+<!-- 
+<table border="1" cellspacing="0" cellpadding="1" width="100%" class="normal">
+    <thead>
+        <tr>
+            <th width="40" height="25" class="seiseki-head">No.</th>
+            <th width="200" class="seiseki-head">科目大区分</th>
+            <th width="200" class="seiseki-head">科目中区分</th>
+            <th width="200" class="seiseki-head">科目小区分</th>
+            <th width="350" class="seiseki-head">科目名    </th>
+            <th width="120" class="seiseki-head">単位数</th>
+            <th width="150" class="seiseki-head">修得年度</th>
+            <th width="150" class="seiseki-head">修得学期</th>
+            
+            <th width="60" class="seiseki-head">評語</th>
+            <th width="60" class="seiseki-head">合否</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">1</td>
+            	<td>教養教育に関する科目</td>
+            	<td>情報リテラシー／自然系共通専門基礎／自然科学</td>
+            	<td>情報リテラシー／自然系共通専門基礎</td>
+            	<td>データサイエンス総論Ⅱ</td>
+				<td>1.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第2学期</td>	                
+                
+                <td align="center">
+                	
+                </td>
+                <td align="center">
+					
+					否
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">2</td>
+            	<td>教養教育に関する科目</td>
+            	<td>医歯学</td>
+            	<td>医歯学</td>
+            	<td>原子力と倫理</td>
+				<td>1.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第2学期</td>	                
+                
+                <td align="center">
+                	
+                </td>
+                <td align="center">
+					
+					否
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">3</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（必修）</td>
+            	<td>知能情報システム実験IV</td>
+				<td>1.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第2学期</td>	                
+                
+                <td align="center">
+                	
+                </td>
+                <td align="center">
+					
+					否
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">4</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（必修）</td>
+            	<td>研究室体験実習</td>
+				<td>1.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第2学期</td>	                
+                
+                <td align="center">
+                	
+                </td>
+                <td align="center">
+					
+					否
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">5</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（選択必修）</td>
+            	<td>コンピュータアーキテクチャ</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第2学期</td>	                
+                
+                <td align="center">
+                	
+                </td>
+                <td align="center">
+					
+					否
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">6</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（選択必修）</td>
+            	<td>情報システムとセキュリティ</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第2学期</td>	                
+                
+                <td align="center">
+                	
+                </td>
+                <td align="center">
+					
+					否
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">7</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（選択）</td>
+            	<td>データベース</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第2学期</td>	                
+                
+                <td align="center">
+                	
+                </td>
+                <td align="center">
+					
+					否
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">8</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（選択）</td>
+            	<td>マルチメディアコンピューティング</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第2学期</td>	                
+                
+                <td align="center">
+                	
+                </td>
+                <td align="center">
+					
+					否
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">9</td>
+            	<td>教養教育に関する科目</td>
+            	<td>健康・スポーツ</td>
+            	<td>健康・スポーツ</td>
+            	<td>健康スポーツ科学実習 I</td>
+				<td>1.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">10</td>
+            	<td>教養教育に関する科目</td>
+            	<td>健康・スポーツ</td>
+            	<td>健康・スポーツ</td>
+            	<td>健康スポーツ科学講義</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">11</td>
+            	<td>教養教育に関する科目</td>
+            	<td>大学学習法</td>
+            	<td>大学学習法</td>
+            	<td>工学リテラシー入門（情報電子分野）</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">12</td>
+            	<td>教養教育に関する科目</td>
+            	<td>外国語</td>
+            	<td>英語</td>
+            	<td>アカデミック英語入門R</td>
+				<td>1.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">13</td>
+            	<td>教養教育に関する科目</td>
+            	<td>外国語</td>
+            	<td>英語</td>
+            	<td>アカデミック英語入門L</td>
+				<td>1.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">14</td>
+            	<td>教養教育に関する科目</td>
+            	<td>外国語</td>
+            	<td>初修外国語</td>
+            	<td>ドイツ語圏グローバル理解 4（東西ドイツの分断と統一って？）</td>
+				<td>1.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	秀
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">15</td>
+            	<td>教養教育に関する科目</td>
+            	<td>外国語</td>
+            	<td>初修外国語</td>
+            	<td>ドイツ語圏グローバル理解 5（映像で見る日独文化比較）</td>
+				<td>1.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	秀
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">16</td>
+            	<td>教養教育に関する科目</td>
+            	<td>外国語</td>
+            	<td>初修外国語</td>
+            	<td>中国語圏グローバル理解 5（中国の生活と経済）</td>
+				<td>1.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	秀
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">17</td>
+            	<td>教養教育に関する科目</td>
+            	<td>人文社会・教育科学／新潟大学個性化科目</td>
+            	<td>新潟大学個性化科目</td>
+            	<td>日本酒学B</td>
+				<td>1.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第2学期</td>	                
+                
+                <td align="center">
+                	秀
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">18</td>
+            	<td>教養教育に関する科目</td>
+            	<td>人文社会・教育科学／新潟大学個性化科目</td>
+            	<td>新潟大学個性化科目</td>
+            	<td>日本酒学A</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	秀
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">19</td>
+            	<td>教養教育に関する科目</td>
+            	<td>人文社会・教育科学／新潟大学個性化科目</td>
+            	<td>人文社会・教育科学</td>
+            	<td>心と社会◆</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	秀
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">20</td>
+            	<td>教養教育に関する科目</td>
+            	<td>人文社会・教育科学／新潟大学個性化科目</td>
+            	<td>人文社会・教育科学</td>
+            	<td>英語基礎 L</td>
+				<td>1.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">21</td>
+            	<td>教養教育に関する科目</td>
+            	<td>人文社会・教育科学／新潟大学個性化科目</td>
+            	<td>人文社会・教育科学</td>
+            	<td>英語基礎 R</td>
+				<td>1.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">22</td>
+            	<td>教養教育に関する科目</td>
+            	<td>人文社会・教育科学／新潟大学個性化科目</td>
+            	<td>人文社会・教育科学</td>
+            	<td>日本国憲法</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第2学期</td>	                
+                
+                <td align="center">
+                	優
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">23</td>
+            	<td>教養教育に関する科目</td>
+            	<td>人文社会・教育科学／新潟大学個性化科目</td>
+            	<td>人文社会・教育科学</td>
+            	<td>日本言語文化実習Ａ</td>
+				<td>1.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">24</td>
+            	<td>教養教育に関する科目</td>
+            	<td>人文社会・教育科学／新潟大学個性化科目</td>
+            	<td>人文社会・教育科学</td>
+            	<td>電気実習I</td>
+				<td>1.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">25</td>
+            	<td>教養教育に関する科目</td>
+            	<td>情報リテラシー／自然系共通専門基礎／自然科学</td>
+            	<td>自然科学</td>
+            	<td>基礎数理Ａ I</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">26</td>
+            	<td>教養教育に関する科目</td>
+            	<td>情報リテラシー／自然系共通専門基礎／自然科学</td>
+            	<td>自然科学</td>
+            	<td>基礎数理Ａ II</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">27</td>
+            	<td>教養教育に関する科目</td>
+            	<td>情報リテラシー／自然系共通専門基礎／自然科学</td>
+            	<td>自然科学</td>
+            	<td>基礎数理B</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">28</td>
+            	<td>教養教育に関する科目</td>
+            	<td>情報リテラシー／自然系共通専門基礎／自然科学</td>
+            	<td>自然科学</td>
+            	<td>電磁気学IA</td>
+				<td>1.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">29</td>
+            	<td>教養教育に関する科目</td>
+            	<td>情報リテラシー／自然系共通専門基礎／自然科学</td>
+            	<td>自然科学</td>
+            	<td>振動論と微分方程式</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	優
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">30</td>
+            	<td>教養教育に関する科目</td>
+            	<td>情報リテラシー／自然系共通専門基礎／自然科学</td>
+            	<td>自然科学</td>
+            	<td>くらしを支える機械システム工学</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">31</td>
+            	<td>教養教育に関する科目</td>
+            	<td>情報リテラシー／自然系共通専門基礎／自然科学</td>
+            	<td>情報リテラシー／自然系共通専門基礎</td>
+            	<td>情報処理概論Ａ I</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">32</td>
+            	<td>教養教育に関する科目</td>
+            	<td>情報リテラシー／自然系共通専門基礎／自然科学</td>
+            	<td>情報リテラシー／自然系共通専門基礎</td>
+            	<td>データサイエンス総論Ⅰ</td>
+				<td>1.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第2学期</td>	                
+                
+                <td align="center">
+                	優
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">33</td>
+            	<td>教養教育に関する科目</td>
+            	<td>情報リテラシー／自然系共通専門基礎／自然科学</td>
+            	<td>情報リテラシー／自然系共通専門基礎</td>
+            	<td>エンジニアのためのデータサイエンス入門（情報電子分野）</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	可
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">34</td>
+            	<td>教養教育に関する科目</td>
+            	<td>情報リテラシー／自然系共通専門基礎／自然科学</td>
+            	<td>情報リテラシー／自然系共通専門基礎</td>
+            	<td>物理学基礎BⅠ</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">35</td>
+            	<td>教養教育に関する科目</td>
+            	<td>情報リテラシー／自然系共通専門基礎／自然科学</td>
+            	<td>情報リテラシー／自然系共通専門基礎</td>
+            	<td>物理学基礎BⅡ</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">36</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門基礎科目群</td>
+            	<td>専門基礎科目群（選択必修）</td>
+            	<td>応用数理Ｂ</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">37</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門基礎科目群</td>
+            	<td>専門基礎科目群（選択必修）</td>
+            	<td>応用数理Ｃ</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第2学期</td>	                
+                
+                <td align="center">
+                	可
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">38</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門基礎科目群</td>
+            	<td>専門基礎科目群（選択必修）</td>
+            	<td>物理工学II</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	秀
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">39</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門基礎科目群</td>
+            	<td>専門基礎科目群（選択必修）</td>
+            	<td>電気数理I</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">40</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門基礎科目群</td>
+            	<td>専門基礎科目群（選択必修）</td>
+            	<td>電気数理II</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">41</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門基礎科目群</td>
+            	<td>専門基礎科目群（選択必修）</td>
+            	<td>応用数理Ｅ</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">42</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門基礎科目群</td>
+            	<td>専門基礎科目群（選択必修）</td>
+            	<td>電磁気学</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">43</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（必修）</td>
+            	<td>プログラミングＡI</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">44</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（必修）</td>
+            	<td>プログラミングＡII</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">45</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（必修）</td>
+            	<td>情報システム基礎実習</td>
+				<td>1.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">46</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（必修）</td>
+            	<td>知能情報システム実験I</td>
+				<td>1.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	秀
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">47</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（必修）</td>
+            	<td>知能情報システム実験II</td>
+				<td>1.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	優
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">48</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（必修）</td>
+            	<td>知能情報システム実験III</td>
+				<td>1.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第2学期</td>	                
+                
+                <td align="center">
+                	秀
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">49</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（必修）</td>
+            	<td>国際工学概論</td>
+				<td>1.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">50</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（必修）</td>
+            	<td>総合工学概論</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">51</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（必修）</td>
+            	<td>総合技術科学演習</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">52</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（必修）</td>
+            	<td>技術者の心がまえ</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">53</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（必修）</td>
+            	<td>知的財産概論</td>
+				<td>1.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">54</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（必修）</td>
+            	<td>情報セキュリティ概論</td>
+				<td>1.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">55</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（選択必修）</td>
+            	<td>データ構造とアルゴリズム</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">56</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（選択必修）</td>
+            	<td>形式言語とオートマトン</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第2学期</td>	                
+                
+                <td align="center">
+                	秀
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">57</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（選択必修）</td>
+            	<td>情報理論</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	秀
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">58</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（選択必修）</td>
+            	<td>離散数学</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">59</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（選択必修）</td>
+            	<td>コンピュータネットワーク</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">60</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（選択必修）</td>
+            	<td>信号処理</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">61</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（選択必修）</td>
+            	<td>電子情報通信概論</td>
+				<td>1.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">62</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（選択必修）</td>
+            	<td>コンピュータ基礎</td>
+				<td>1.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">63</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（選択必修）</td>
+            	<td>情報数学</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	秀
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">64</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（選択必修）</td>
+            	<td>電気回路</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">65</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（選択必修）</td>
+            	<td>論理回路</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">66</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（選択必修）</td>
+            	<td>技術英語</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">67</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（選択必修）</td>
+            	<td>データ工学</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	秀
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">68</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（選択）</td>
+            	<td>画像情報工学</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第2学期</td>	                
+                
+                <td align="center">
+                	秀
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">69</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（選択）</td>
+            	<td>ラケットスポーツ</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	優
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">70</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（選択）</td>
+            	<td>基礎電子回路</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">71</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（選択）</td>
+            	<td>数値計算プログラミング</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">72</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（選択）</td>
+            	<td>ロボティクス・メカトロニクス</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">73</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（選択）</td>
+            	<td>制御工学</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">74</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（選択）</td>
+            	<td>電子デバイス</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第1学期</td>	                
+                
+                <td align="center">
+                	認定
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+            <tr onmouseout="TRMouseOut(this)" onmouseover="TRMouseOver(this)">
+            	<td height="25" align="center">75</td>
+            	<td>専門教育に関する科目</td>
+            	<td>専門応用科目群</td>
+            	<td>専門応用科目群（選択）</td>
+            	<td>プログラミングＡIII</td>
+				<td>2.0</td>
+				<td align="center">2025</td>   
+            	<td align="center">第2学期</td>	                
+                
+                <td align="center">
+                	秀
+                </td>
+                <td align="center">
+					合
+					
+                </td>
+            </tr>
+        
+        
+    </tbody>
+</table>
+ -->
+
+<br>
+<br>
+
+   
+   
+   
+   
+   
+
+
+
+
+
+
+
+    
+    
+    
+    
+        
+    
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+ 
+
+</body></html>

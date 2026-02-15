@@ -4,7 +4,7 @@
  */
 
 import { runtime } from '@/core/browser/api';
-import { RELOAD_DELAY } from '@/core/constants';
+import { RELOAD_DELAY, TABLE_DATA_START_ROW_INDEX, TABLE_HEADER_ROW_INDEX } from '@/core/constants';
 import { MAIN_IFRAME_SELECTOR, NOTIFICATION_TABLE_SELECTOR, TAB_MENU_TABLE_ID } from '@/core/constants';
 import { getFrameDocument, updateTableRows, waitForElementInFrame } from '@/core/dom';
 import {
@@ -37,10 +37,10 @@ function loadNotificationTable(): HTMLTableElement | null {
 function tableToArray(table: HTMLTableElement): string[][] {
   const result: string[][] = [];
 
-  for (let i = 1; i < table.rows.length; i++) {
+  for (let i = TABLE_DATA_START_ROW_INDEX; i < table.rows.length; i++) {
     result[i] = [];
     const row = table.rows[i];
-    for (let j = 0; j < table.rows[0].cells.length; j++) {
+    for (let j = 0; j < table.rows[TABLE_HEADER_ROW_INDEX].cells.length; j++) {
       result[i][j] = row.cells[j].innerHTML;
     }
   }

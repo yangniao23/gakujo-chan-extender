@@ -7,6 +7,7 @@
  */
 
 import { GRADE_TABLE_SELECTOR, TAB_MENU_TABLE_ID, MAIN_IFRAME_SELECTOR } from '@/core/constants';
+import { TABLE_DATA_START_ROW_INDEX, TABLE_HEADER_ROW_INDEX } from '@/core/constants';
 import { getTableInFrame, updateTableRows, waitForElementInFrame } from '@/core/dom';
 import {
     GRADE_COLUMN_INDEX,
@@ -38,7 +39,7 @@ function calculateGpa(table: HTMLTableElement): number {
     const gpCredits: number[] = [];
     const credits: number[] = [];
 
-    for (let i = 1; i < table.rows.length; i++) {
+    for (let i = TABLE_DATA_START_ROW_INDEX; i < table.rows.length; i++) {
         const row = table.rows[i];
         const gpText = row.cells[GRADE_COLUMN_INDEX.GP]?.textContent || '';
         const creditText = row.cells[GRADE_COLUMN_INDEX.CREDITS]?.textContent || '';
@@ -67,7 +68,7 @@ function displayGpa(): void {
     if (!table) return;
 
     const gpa = calculateGpa(table);
-    const headerCell = table.rows[0].cells[GRADE_COLUMN_INDEX.GP];
+    const headerCell = table.rows[TABLE_HEADER_ROW_INDEX].cells[GRADE_COLUMN_INDEX.GP];
 
     if (headerCell) {
         headerCell.textContent = `${headerCell.textContent}\n GPA:${gpa.toFixed(GPA_DECIMAL_PLACES)}`;
@@ -81,9 +82,9 @@ function displayGpa(): void {
  */
 function tableToGradeArray(table: HTMLTableElement): GradeRow[] {
     const rows: GradeRow[] = [];
-    const colCount = table.rows[0].cells.length;
+    const colCount = table.rows[TABLE_HEADER_ROW_INDEX].cells.length;
 
-    for (let i = 1; i < table.rows.length; i++) {
+    for (let i = TABLE_DATA_START_ROW_INDEX; i < table.rows.length; i++) {
         const row = table.rows[i];
         const cells: string[] = [];
 
