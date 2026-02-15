@@ -3,19 +3,22 @@
  * 残り時間が11分を切ったら時計アイコンをクリックして延長
  */
 
+import { PORTAL_TIMER_IMG_ID } from '@/core/constants';
+import { startPolling } from '@/core/dom/polling';
+
 const TIMEOUT_THRESHOLD_MINUTES = 11;
 const CHECK_INTERVAL = 60000; // 1分ごと
 const MAX_ATTEMPTS = 10;
+const TIMER_ELEMENT_ID = 'timeout-timer';
 
 /**
  * セッション延長を実行
  */
 function extendSession(): boolean {
-  const timerElement = document.getElementById('timeout-timer');
-  const timerIcon = document.getElementById('portaltimerimg');
+  const timerElement = document.getElementById(TIMER_ELEMENT_ID);
+  const timerIcon = document.getElementById(PORTAL_TIMER_IMG_ID);
 
   if (!timerElement || !timerIcon) {
-    console.warn('[AutoExtender] Required elements not found');
     return false;
   }
 
@@ -36,19 +39,24 @@ function extendSession(): boolean {
 function startAutoExtend(): void {
   let attemptCount = 0;
 
-  const timerId = setInterval(() => {
+  startPolling(() => {
     const extended = extendSession();
     
     if (extended) {
       attemptCount++;
     }
 
-    if (attemptCount > MAX_ATTEMPTS) {
-      clearInterval(timerId);
+    if (attemptCount >= MAX_ATTEMPTS) {
       console.log('[AutoExtender] Max attempts reached, stopping auto-extend');
+      throw new Error('Stop polling'); // startPolling does not have a clean way to stop other than error or timeout
     }
-  }, CHECK_INTERVAL);
+  }, {
+    interval: CHECK_INTERVAL,
+    maxAttempts: Infinity, // Use custom logic for attempts
+  });
 }
 
 // 実行
-startAutoExtend();
+if (typeof window !== 'undefined') {
+  startAutoExtend();
+}
