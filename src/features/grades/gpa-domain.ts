@@ -7,6 +7,7 @@
 
 import { TABLE_DATA_START_ROW_INDEX, TABLE_HEADER_ROW_INDEX } from '@/core/constants';
 import { updateTableRows } from '@/core/dom';
+import { sortBy, sum } from 'es-toolkit';
 import {
     GRADE_COLUMN_INDEX,
     GPA_DECIMAL_PLACES,
@@ -28,8 +29,7 @@ export interface GradeRow {
  * GPAを計算
  */
 export function calculateGpa(table: HTMLTableElement): number {
-    const gpCredits: number[] = [];
-    const credits: number[] = [];
+    const data: { gpCredit: number; credit: number }[] = [];
 
     for (let i = TABLE_DATA_START_ROW_INDEX; i < table.rows.length; i++) {
         const row = table.rows[i];
@@ -41,13 +41,12 @@ export function calculateGpa(table: HTMLTableElement): number {
             const gp = parseFloat(gpText) || 0;
             const credit = parseFloat(creditText) || 0;
 
-            gpCredits.push(gp * credit);
-            credits.push(credit);
+            data.push({ gpCredit: gp * credit, credit });
         }
     }
 
-    const gpSum = gpCredits.reduce((sum, val) => sum + val, 0);
-    const creditSum = credits.reduce((sum, val) => sum + val, 0);
+    const gpSum = sum(data.map(d => d.gpCredit));
+    const creditSum = sum(data.map(d => d.credit));
 
     return creditSum > 0 ? gpSum / creditSum : 0;
 }
@@ -102,11 +101,8 @@ export function updateGradeTable(table: HTMLTableElement, rows: GradeRow[]): voi
  */
 export function sortGradesByNumber(table: HTMLTableElement): void {
     const gradeArray = parseGradeTable(table);
-
-    gradeArray.sort((a, b) => a.no - b.no);
-
-    updateGradeTable(table, gradeArray);
-    console.log('[GPA Solver] Sorted by No.');
+    const sorted = sortBy(gradeArray, [(row) => row.no]);
+    updateGradeTable(table, sorted);
 }
 
 /**
@@ -114,15 +110,8 @@ export function sortGradesByNumber(table: HTMLTableElement): void {
  */
 export function sortGradesByOpeningNumber(table: HTMLTableElement): void {
     const gradeArray = parseGradeTable(table);
-
-    gradeArray.sort((a, b) => {
-        if (a.openingNumber < b.openingNumber) return -1;
-        if (a.openingNumber > b.openingNumber) return 1;
-        return 0;
-    });
-
-    updateGradeTable(table, gradeArray);
-    console.log('[GPA Solver] Sorted by opening number');
+    const sorted = sortBy(gradeArray, [(row) => row.openingNumber]);
+    updateGradeTable(table, sorted);
 }
 
 /**
@@ -133,32 +122,11 @@ export function sortGradesByOpeningNumber(table: HTMLTableElement): void {
 export function sortGradesByScore(table: HTMLTableElement): void {
     const gradeArray = parseGradeTable(table);
 
-    // 元の順番を保持するためにインデックスを追加
-    const gradeArrayWithIndex = gradeArray.map((row, index) => ({ ...row, originalIndex: index }));
+    // es-toolkitのsortByを使用してソート
+    const sorted = sortBy(gradeArray, [
+        (row) => isNaN(row.score) ? 0 : 1, // NaNを優先
+        (row) => row.score,
+    ]);
 
-    gradeArrayWithIndex.sort((a, b) => {
-        const aHasScore = !isNaN(a.score);
-        const bHasScore = !isNaN(b.score);
-
-        // 両方とも得点が空の場合は元の順番を保持
-        if (!aHasScore && !bHasScore) {
-            return a.originalIndex - b.originalIndex;
-        }
-
-        // aが空の場合は上に
-        if (!aHasScore) return -1;
-        // bが空の場合は上に
-        if (!bHasScore) return 1;
-
-        // 両方とも得点がある場合は昇順でソート
-        if (a.score !== b.score) {
-            return a.score - b.score;
-        }
-
-        // 得点が同じ場合は元の順番を保持
-        return a.originalIndex - b.originalIndex;
-    });
-
-    updateGradeTable(table, gradeArrayWithIndex);
-    console.log('[GPA Solver] Sorted by score');
+    updateGradeTable(table, sorted);
 }
