@@ -1,9 +1,9 @@
 /**
  * TOTP/HOTP実装
- * Based on totp-js by A99US
+ * 'otpauth' ライブラリを使用して実装を標準化
  */
 
-import { hexToArray, arrayToHex, int32toHex } from './convert';
+import * as OTPAuth from 'otpauth';
 
 export interface TotpOptions {
   /** トークンの桁数 (通常6桁) */
@@ -38,32 +38,6 @@ export function getCountdown(interval: number = 30): number {
 }
 
 /**
- * SHA-1 HMACを計算
- */
-export async function hmac(
-  keyHex: string,
-  valueHex: string,
-  debug: boolean = false
-): Promise<string> {
-  const algo: HmacImportParams = {
-    name: 'HMAC',
-    hash: 'SHA-1',
-  };
-  const modes: KeyUsage[] = ['sign', 'verify'];
-  const key = Uint8Array.from(hexToArray(keyHex));
-  const value = Uint8Array.from(hexToArray(valueHex));
-
-  let result = await crypto.subtle.importKey('raw', key, algo, false, modes);
-  if (debug) console.debug('Key imported', keyHex);
-  
-  const signature = await crypto.subtle.sign(algo, result, value);
-  const hexResult = arrayToHex(signature);
-  if (debug) console.debug('HMAC calculated', value, hexResult);
-  
-  return hexResult;
-}
-
-/**
  * TOTP/HOTPトークンを生成
  */
 export async function generateOtp(
@@ -73,71 +47,39 @@ export async function generateOtp(
   const {
     size = 6,
     counter = false,
-    interval = false,
-    debug = false,
+    interval = 30, // デフォルト30秒
   } = options;
 
-  const isInt = (x: number): boolean => (x === x) | 0;
+  const secret = OTPAuth.Secret.fromHex(keyHex);
 
-  if (typeof keyHex !== 'string') {
-    throw new Error('Invalid hex key');
-  }
-
-  let counterInt: number;
-  if (counter === false) {
-    counterInt = getCurrentCounter();
-  } else if (typeof counter !== 'number' || !isInt(counter)) {
-    throw new Error('Invalid counter value');
+  if (counter !== false) {
+    // HOTPモード
+    const hotp = new OTPAuth.HOTP({
+      issuer: 'Gakujo',
+      label: 'User',
+      algorithm: 'SHA1',
+      digits: size,
+      counter: counter,
+      secret: secret,
+    });
+    return hotp.generate();
   } else {
-    counterInt = counter;
+    // TOTPモード
+    const totp = new OTPAuth.TOTP({
+      issuer: 'Gakujo',
+      label: 'User',
+      algorithm: 'SHA1',
+      digits: size,
+      period: typeof interval === 'number' ? interval : 30,
+      secret: secret,
+    });
+    return totp.generate();
   }
-
-  if (typeof size !== 'number' || size < 6 || size > 10 || !isInt(size)) {
-    throw new Error('Invalid size value (default is 6)');
-  }
-
-  if (interval !== false) {
-    if (typeof interval !== 'number' || !isInt(interval)) {
-      throw new Error('Invalid interval value');
-    }
-    counterInt += getCurrentCounter(interval);
-  }
-
-  // HMACを計算
-  const mac = await hmac(
-    keyHex,
-    '00000000' + int32toHex(counterInt),
-    debug
-  );
-
-  // 最後の4ビットがオフセットを決定
-  const offset = parseInt(mac.substr(-1), 16);
-  
-  // 32ビット数値として抽出し、符号ビットを破棄
-  let code = parseInt(mac.substr(offset * 2, 8), 16) & 0x7fffffff;
-  
-  // トークンを指定桁数にトリム/パディング
-  const token = ('0000000000' + (code % Math.pow(10, size))).substr(-size);
-  
-  if (debug) console.debug('Token', token);
-  return token;
 }
 
 /**
  * ブラウザがTOTP実装に対応しているか確認
  */
 export function isCompatible(): boolean {
-  if (typeof crypto === 'undefined' || typeof Uint8Array !== 'function') {
-    return false;
-  }
-  
-  if (!crypto.subtle) {
-    return false;
-  }
-  
-  return !!(
-    typeof crypto.subtle.importKey === 'function' &&
-    typeof crypto.subtle.sign === 'function' &&
-    typeof crypto.subtle.digest === 'function'
-  );
+  return typeof crypto !== 'undefined' && typeof crypto.subtle !== 'undefined';
 }
