@@ -43,8 +43,9 @@ export function setChecked(
 /**
  * フォーム要素を無効にする
  */
-export function disable(element: HTMLElement): HTMLElement {
-  (element as any).disabled = true;
+export function disable<T extends HTMLElement & { disabled?: boolean }>(element: T): T {
+  const el = element as unknown as { disabled: boolean };
+  el.disabled = true;
   element.setAttribute('disabled', 'disabled');
   return element;
 }
@@ -52,8 +53,9 @@ export function disable(element: HTMLElement): HTMLElement {
 /**
  * フォーム要素を有効にする
  */
-export function enable(element: HTMLElement): HTMLElement {
-  (element as any).disabled = false;
+export function enable<T extends HTMLElement & { disabled?: boolean }>(element: T): T {
+  const el = element as unknown as { disabled: boolean };
+  el.disabled = false;
   element.removeAttribute('disabled');
   return element;
 }
@@ -65,7 +67,7 @@ export function getFormData(form: HTMLFormElement): Record<string, string> {
   const formData = new FormData(form);
   const data: Record<string, string> = {};
 
-  for (const [key, value] of formData.entries()) {
+  for (const [key, value] of formData as unknown as Iterable<[string, FormDataEntryValue]>) {
     if (typeof value === 'string') {
       data[key] = value;
     }
@@ -116,19 +118,19 @@ export function delegate<K extends keyof HTMLElementEventMap>(
   event: K,
   handler: (element: HTMLElement, event: HTMLElementEventMap[K]) => void
 ): () => void {
-  const listener = (e: Event) => {
+  const listener = (e: HTMLElementEventMap[K]) => {
     const target = e.target as HTMLElement;
-    const matchedElement = target.closest(selector);
+    const matchedElement = target.closest(selector) as HTMLElement | null;
 
     if (matchedElement && parent.contains(matchedElement)) {
-      handler(matchedElement, e as HTMLElementEventMap[K]);
+      handler(matchedElement, e);
     }
   };
 
-  on(parent, event, listener as any);
+  on(parent, event, listener);
 
   return () => {
-    off(parent, event, listener as any);
+    off(parent, event, listener);
   };
 }
 

@@ -12,12 +12,12 @@ export function getElementById<K extends keyof HTMLElementTagNameMap>(
 ): InstanceType<typeof HTMLElementTagNameMap[K]> | null {
   const element = document.getElementById(id);
   if (!element) return null;
-  
+
   if (tag && element.tagName.toLowerCase() !== tag.toLowerCase()) {
     console.warn(`Element with id "${id}" is not a ${tag}`);
   }
-  
-  return element as any;
+
+  return element as unknown as InstanceType<typeof HTMLElementTagNameMap[K]>;
 }
 
 /**
@@ -28,7 +28,7 @@ export function getElementsByClassName<K extends keyof HTMLElementTagNameMap>(
   parent?: HTMLElement
 ): HTMLCollectionOf<InstanceType<typeof HTMLElementTagNameMap[K]>> {
   const container = parent || document;
-  return container.getElementsByClassName(className) as any;
+  return container.getElementsByClassName(className) as unknown as HTMLCollectionOf<InstanceType<typeof HTMLElementTagNameMap[K]>>;
 }
 
 /**
@@ -89,14 +89,14 @@ export function nextElementSibling<E extends HTMLElement = HTMLElement>(
   selector?: string
 ): E | null {
   let next = element.nextElementSibling as E | null;
-  
+
   while (next) {
     if (!selector || next.matches(selector)) {
       return next;
     }
     next = next.nextElementSibling as E | null;
   }
-  
+
   return null;
 }
 
@@ -108,14 +108,14 @@ export function previousElementSibling<E extends HTMLElement = HTMLElement>(
   selector?: string
 ): E | null {
   let prev = element.previousElementSibling as E | null;
-  
+
   while (prev) {
     if (!selector || prev.matches(selector)) {
       return prev;
     }
     prev = prev.previousElementSibling as E | null;
   }
-  
+
   return null;
 }
 
@@ -160,8 +160,8 @@ export function isVisible(element: HTMLElement): boolean {
  * 要素が無効か確認
  */
 export function isDisabled(element: HTMLElement): boolean {
-  const el = element as any;
-  return el.disabled === true || el.getAttribute('disabled') === 'disabled';
+  const el = element as unknown as { disabled: boolean | undefined };
+  return el.disabled === true || element.getAttribute('disabled') === 'disabled';
 }
 
 /**
@@ -184,12 +184,12 @@ export function containsText(
 export function getParentPath(element: HTMLElement): HTMLElement[] {
   const path: HTMLElement[] = [];
   let current: HTMLElement | null = element;
-  
+
   while (current) {
     path.push(current);
     current = current.parentElement;
   }
-  
+
   return path;
 }
 
@@ -199,23 +199,23 @@ export function getParentPath(element: HTMLElement): HTMLElement[] {
 export function getPathSelector(element: HTMLElement): string {
   const path: string[] = [];
   let current: HTMLElement | null = element;
-  
+
   while (current && current !== document.documentElement) {
     let selector = current.tagName.toLowerCase();
-    
+
     if (current.id) {
       selector = `#${current.id}`;
       path.unshift(selector);
       break;
     }
-    
+
     if (current.className) {
       selector += `.${current.className.split(' ').join('.')}`;
     }
-    
+
     path.unshift(selector);
     current = current.parentElement;
   }
-  
+
   return path.join(' > ');
 }

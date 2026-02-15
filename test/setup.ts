@@ -5,6 +5,22 @@
 // グローバルなモックやヘルパーをここで定義
 
 // ブラウザAPIのモック
+interface MockChrome {
+    runtime: {
+        getManifest: () => { version: string };
+        sendMessage: () => Promise<void>;
+        onMessage: {
+            addListener: () => void;
+        };
+    };
+    storage: {
+        local: {
+            get: () => Promise<Record<string, unknown>>;
+            set: () => Promise<void>;
+        };
+    };
+}
+
 global.chrome = {
     runtime: {
         getManifest: () => ({ version: '0.64.0' }),
@@ -19,6 +35,6 @@ global.chrome = {
             set: () => Promise.resolve(),
         },
     },
-} as any;
+} as unknown as MockChrome;
 
 global.browser = global.chrome;
