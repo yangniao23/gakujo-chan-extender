@@ -7,7 +7,7 @@
 
 import { GRADE_TABLE_SELECTOR, TAB_MENU_TABLE_ID, MAIN_IFRAME_SELECTOR } from '@/core/constants';
 import { TABLE_HEADER_ROW_INDEX } from '@/core/constants';
-import { getTableInFrame, waitForElementInFrame } from '@/core/dom';
+import { getTableInFrame, waitForElementInFrame, createButton, append } from '@/core/dom';
 import {
     GRADE_COLUMN_INDEX,
     GRADE_SORT_BUTTON_IDS,
@@ -32,28 +32,12 @@ function createSortButtons(table: HTMLTableElement): void {
         return;
     }
 
-    // No.順ボタン
-    const noButton = document.createElement('button');
-    noButton.id = GRADE_SORT_BUTTON_IDS.NUMBER;
-    noButton.textContent = GRADE_SORT_BUTTON_LABELS.NUMBER;
-    noButton.addEventListener('click', () => sortGradesByNumber(table));
-
-    // 開講番号順ボタン
-    const openNumButton = document.createElement('button');
-    openNumButton.id = GRADE_SORT_BUTTON_IDS.OPENING_NUMBER;
-    openNumButton.textContent = GRADE_SORT_BUTTON_LABELS.OPENING_NUMBER;
-    openNumButton.addEventListener('click', () => sortGradesByOpeningNumber(table));
-
-    // 得点順ボタン
-    const scoreButton = document.createElement('button');
-    scoreButton.id = GRADE_SORT_BUTTON_IDS.SCORE;
-    scoreButton.textContent = GRADE_SORT_BUTTON_LABELS.SCORE;
-    scoreButton.addEventListener('click', () => sortGradesByScore(table));
-
-    // ボタンを追加
-    tabMenuTable.appendChild(noButton);
-    tabMenuTable.appendChild(openNumButton);
-    tabMenuTable.appendChild(scoreButton);
+    append(
+        tabMenuTable,
+        createButton(GRADE_SORT_BUTTON_LABELS.NUMBER, () => sortGradesByNumber(table), { id: GRADE_SORT_BUTTON_IDS.NUMBER }),
+        createButton(GRADE_SORT_BUTTON_LABELS.OPENING_NUMBER, () => sortGradesByOpeningNumber(table), { id: GRADE_SORT_BUTTON_IDS.OPENING_NUMBER }),
+        createButton(GRADE_SORT_BUTTON_LABELS.SCORE, () => sortGradesByScore(table), { id: GRADE_SORT_BUTTON_IDS.SCORE })
+    );
 }
 
 /**
