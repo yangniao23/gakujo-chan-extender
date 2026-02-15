@@ -31,6 +31,9 @@
     "wxt": "^0.20.17"
   },
   "dependencies": {
+    "date-fns": "^4.1.0",
+    "es-toolkit": "^1.44.0",
+    "otpauth": "^9.5.0",
     "webextension-polyfill": "^0.12.0"
   }
 }
