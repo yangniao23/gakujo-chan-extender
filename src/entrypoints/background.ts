@@ -43,27 +43,28 @@ export default defineBackground(() => {
 
     // 特定のURLに対してファイル名を指定してルールを上書き
     const registerSpecificPdfRule = async (url: string, filename: string) => {
-        // ID 2番以降を使用（一時的なルール）
-        const ruleId = Math.floor(Math.random() * 1000) + 10; 
-        
-        // ファイル名に拡張子がない場合は補完
+        const ruleId = Math.floor(Math.random() * 10000) + 100;
         const finalFilename = filename.toLowerCase().endsWith('.pdf') ? filename : `${filename}.pdf`;
+
+        // RFC 6266 に準拠した filename* の指定（日本語対応を強化）
+        const dispositionValue = `inline; filename="${encodeURIComponent(finalFilename)}"; filename*=UTF-8''${encodeURIComponent(finalFilename)}`;
 
         const rule = {
             id: ruleId,
-            priority: 2, // デフォルトルール(priority 1)より優先
+            priority: 10, // デフォルトより大幅に高くする
             action: {
                 type: 'modifyHeaders',
                 responseHeaders: [
                     {
                         header: 'Content-Disposition',
                         operation: 'set',
-                        value: `inline; filename="${encodeURIComponent(finalFilename)}"`,
+                        value: dispositionValue,
                     },
                 ],
             },
             condition: {
-                urlFilter: url.split('?')[0], // クエリを除いた部分でマッチングを試みる
+                // 完全一致を狙うために urlFilter を工夫
+                urlFilter: url.split('#')[0], 
                 resourceTypes: ['main_frame', 'sub_frame'] as browser.declarativeNetRequest.ResourceType[],
             },
         };
@@ -72,16 +73,19 @@ export default defineBackground(() => {
             await browser.declarativeNetRequest.updateDynamicRules({
                 addRules: [rule as browser.declarativeNetRequest.Rule],
             });
-            console.log(`[Background] Specific rule registered for ${finalFilename}`);
+            console.log(`[Background] Rule registered: ${finalFilename} for ${url}`);
             
-            // 30秒後にルールを削除（リクエスト完了後には不要なため）
-            setTimeout(async () => {
-                await browser.declarativeNetRequest.updateDynamicRules({
+            // リクエスト完了後にルールを削除
+            setTimeout(() => {
+                browser.declarativeNetRequest.updateDynamicRules({
                     removeRuleIds: [ruleId],
-                });
-            }, 30000);
+                }).catch(() => {});
+            }, 60000);
+            
+            return true;
         } catch (error) {
-            console.warn('[Background] Failed to register specific PDF rule:', error);
+            console.error('[Background] Rule registration failed:', error);
+            return false;
         }
     };
 
@@ -90,14 +94,15 @@ export default defineBackground(() => {
 
     // メッセージリスナー
     browser.runtime.onMessage.addListener(
-        (message: { type?: string; url?: string; filename?: string }) => {
+        (message: { type?: string; url?: string; filename?: string }, sender, sendResponse) => {
             if (message.type === 'PREPARE_PDF' && message.url && message.filename) {
-                registerSpecificPdfRule(message.url, message.filename);
-                return;
+                registerSpecificPdfRule(message.url, message.filename).then(success => {
+                    sendResponse({ success });
+                });
+                return true; // 非同期応答を許可
             }
 
             if (message.url) {
-                // 既存の既読処理
                 fetch(message.url).catch(err => console.error(err));
             }
         }

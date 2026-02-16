@@ -10,14 +10,14 @@ export default defineContentScript({
         // メインフレーム（最上位）では実行しない
         if (window.self === window.top) return;
 
-        document.addEventListener('click', (event) => {
+        document.addEventListener('click', async (event) => {
             const target = event.target as HTMLElement;
             const anchor = target.closest('a');
 
             if (!anchor) return;
 
             const href = anchor.getAttribute('href');
-            if (!href) return;
+            if (!href || href === '#' || href.startsWith('javascript:')) return;
 
             // 学情のダウンロードリンクやPDFらしきパスを検知
             const isDownloadLink = href.includes('download') || 
@@ -25,24 +25,34 @@ export default defineContentScript({
                                  href.toLowerCase().endsWith('.pdf');
 
             if (isDownloadLink) {
-                // 絶対URLを取得（ルールマッチングのため）
+                // デフォルトの挙動（ダウンロードやページ遷移）を停止
+                event.preventDefault();
+                event.stopPropagation();
+
+                // 絶対URLを取得
                 const absoluteUrl = new URL(href, window.location.href).href;
                 
-                // リンクテキストをファイル名として取得（前後の空白を削除）
-                const filename = anchor.innerText.trim();
+                // リンクテキストをファイル名として取得
+                const filename = anchor.innerText.trim() || 'document';
 
-                if (filename) {
-                    // 背景スクリプトにファイル名の準備を依頼
-                    browser.runtime.sendMessage({
+                console.log(`[IframePdfHandler] Preparing to open ${filename}...`);
+
+                try {
+                    // 背景スクリプトに準備を依頼し、完了を待機
+                    await browser.runtime.sendMessage({
                         type: 'PREPARE_PDF',
                         url: absoluteUrl,
                         filename: filename
                     });
+                    
+                    // 準備ができたら新しいタブで開く
+                    window.open(absoluteUrl, '_blank');
+                    console.log(`[IframePdfHandler] Opening ${filename} in new tab`);
+                } catch (error) {
+                    console.error('[IframePdfHandler] Failed to prepare PDF:', error);
+                    // 失敗しても一応開く
+                    window.open(absoluteUrl, '_blank');
                 }
-
-                // 新しいタブで開くように属性を変更
-                anchor.target = '_blank';
-                console.log(`[IframePdfHandler] Preparing to open ${filename} in new tab`);
             }
         }, true);
     },
