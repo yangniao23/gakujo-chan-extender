@@ -8,6 +8,8 @@
 import { browser } from 'wxt/browser';
 
 export default defineBackground(() => {
+    console.log('[Background] Service worker started');
+
     // PDFの強制ダウンロードを防止する動的ルールの設定
     const setupPdfInlineRules = async () => {
         const ruleId = 1;
@@ -46,6 +48,7 @@ export default defineBackground(() => {
 
     // 特定のURLに対してファイル名を指定してルールを上書きし、タブを開く
     const openPdfWithCorrectTitle = async (url: string, filename: string) => {
+        console.log(`[Background] Starting openPdfWithCorrectTitle for: ${filename}`);
         const ruleId = Math.floor(Math.random() * 10000) + 100;
         const finalFilename = filename.toLowerCase().endsWith('.pdf') ? filename : `${filename}.pdf`;
         const dispositionValue = `inline; filename="${encodeURIComponent(finalFilename)}"; filename*=UTF-8''${encodeURIComponent(finalFilename)}`;
@@ -70,49 +73,59 @@ export default defineBackground(() => {
         };
 
         try {
-            // 1. ルール登録
+            console.log(`[Background] Registering dynamic rule for ${finalFilename}...`);
             await browser.declarativeNetRequest.updateDynamicRules({
                 addRules: [rule],
             });
 
-            // 2. タブを開く
-            const tab = await browser.tabs.create({ url });
-            console.log(`[Background] Tab created: ${tab.id} for ${finalFilename}`);
-
-            // 3. 読み込み完了を待機してタイトルを書き換える
+            // 2. リスナーを先に登録して、イベントを取り逃がさないようにする
+            // 将来的にタブIDが確定してからフィルタリングする
+            let targetTabId: number | undefined;
             const listener = (tabId: number, changeInfo: chrome.tabs.TabChangeInfo) => {
-                if (tabId === tab.id && changeInfo.status === 'complete') {
-                    browser.tabs.onUpdated.removeListener(listener);
-                    
-                    // タイトル書き換えスクリプトの実行
-                    browser.scripting.executeScript({
-                        target: { tabId },
-                        func: (newTitle: string) => {
-                            const applyTitle = () => {
-                                if (document.title !== newTitle) {
-                                    document.title = newTitle;
-                                }
-                            };
-                            applyTitle();
-                            const observer = new MutationObserver(applyTitle);
-                            observer.observe(document.documentElement, { childList: true, subtree: true, characterData: true });
-                            let count = 0;
-                            const interval = setInterval(() => {
+                if (targetTabId !== undefined && tabId === targetTabId) {
+                    console.log(`[Background] Tab ${tabId} updated: status=${changeInfo.status}`);
+                    if (changeInfo.status === 'complete') {
+                        browser.tabs.onUpdated.removeListener(listener);
+                        console.log(`[Background] Tab ${tabId} load complete. Injecting title script...`);
+                        
+                        browser.scripting.executeScript({
+                            target: { tabId },
+                            func: (newTitle: string) => {
+                                const applyTitle = () => {
+                                    if (document.title !== newTitle) {
+                                        document.title = newTitle;
+                                    }
+                                };
                                 applyTitle();
-                                if (count++ > 15) clearInterval(interval);
-                            }, 200);
-                        },
-                        args: [finalFilename],
-                    }).catch(err => console.warn('[Background] Script injection failed:', err));
+                                const observer = new MutationObserver(applyTitle);
+                                observer.observe(document.documentElement, { childList: true, subtree: true, characterData: true });
+                                let count = 0;
+                                const interval = setInterval(() => {
+                                    applyTitle();
+                                    if (count++ > 15) clearInterval(interval);
+                                }, 200);
+                            },
+                            args: [finalFilename],
+                        }).then(() => {
+                            console.log(`[Background] Title script injected successfully for tab ${tabId}`);
+                        }).catch(err => console.warn('[Background] Script injection failed:', err));
+                    }
                 }
             };
             browser.tabs.onUpdated.addListener(listener);
 
-            // 4. ルールの後片付け
+            console.log(`[Background] Creating tab for ${url}...`);
+            const tab = await browser.tabs.create({ url });
+            targetTabId = tab.id; // ここでIDを確定させる
+            console.log(`[Background] Tab created: ID=${tab.id}`);
+
             setTimeout(() => {
+                console.log(`[Background] Removing temporary rule ${ruleId}`);
                 browser.declarativeNetRequest.updateDynamicRules({
                     removeRuleIds: [ruleId],
                 }).catch(() => {});
+                // 念のためタイムアウトでリスナーも解除
+                browser.tabs.onUpdated.removeListener(listener);
             }, 60000);
             
             return true;
@@ -122,13 +135,16 @@ export default defineBackground(() => {
         }
     };
 
-    // 初期化時にデフォルトルールを設定
+    // 初期化
     setupPdfInlineRules();
 
     // メッセージリスナー
     browser.runtime.onMessage.addListener(
         (message: { type?: string; url?: string; filename?: string }, sender, sendResponse) => {
+            console.log('[Background] Message received:', message.type, message.url);
+            
             if (message.type === 'OPEN_PDF' && message.url && message.filename) {
+                console.log('[Background] Handling OPEN_PDF request');
                 openPdfWithCorrectTitle(message.url, message.filename).then(success => {
                     sendResponse({ success });
                 });
@@ -136,10 +152,11 @@ export default defineBackground(() => {
             }
 
             if (message.url) {
+                console.log('[Background] Handling URL fetch request (message.url)');
                 fetch(message.url).catch(err => console.error(err));
             }
         }
     );
 
-    console.log('[Background] Service worker initialized');
+    console.log('[Background] Event listeners initialized');
 });
