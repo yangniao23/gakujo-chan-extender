@@ -78,37 +78,50 @@ export default defineBackground(() => {
                 addRules: [rule],
             });
 
-            // 2. リスナーを先に登録して、イベントを取り逃がさないようにする
-            // 将来的にタブIDが確定してからフィルタリングする
+            // リスナーを先に登録
             let targetTabId: number | undefined;
             const listener = (tabId: number, changeInfo: chrome.tabs.TabChangeInfo) => {
                 if (targetTabId !== undefined && tabId === targetTabId) {
                     console.log(`[Background] Tab ${tabId} updated: status=${changeInfo.status}`);
-                    if (changeInfo.status === 'complete') {
-                        browser.tabs.onUpdated.removeListener(listener);
-                        console.log(`[Background] Tab ${tabId} load complete. Injecting title script...`);
+                    
+                    // ChromeのPDFビューアは loading 中から complete にかけて何度もタイトルを上書きするため、
+                    // loading 以降、複数回スクリプトを実行してタイトルをロックする
+                    if (changeInfo.status === 'loading' || changeInfo.status === 'complete') {
+                        console.log(`[Background] Tab ${tabId} ready for injection. Locking title to: ${finalFilename}`);
                         
                         browser.scripting.executeScript({
                             target: { tabId },
                             func: (newTitle: string) => {
-                                const applyTitle = () => {
-                                    if (document.title !== newTitle) {
-                                        document.title = newTitle;
-                                    }
-                                };
-                                applyTitle();
-                                const observer = new MutationObserver(applyTitle);
-                                observer.observe(document.documentElement, { childList: true, subtree: true, characterData: true });
-                                let count = 0;
-                                const interval = setInterval(() => {
-                                    applyTitle();
-                                    if (count++ > 15) clearInterval(interval);
-                                }, 200);
+                                // タイトルのプロパティを再定義して、外部からの書き換えをブロックする
+                                try {
+                                    // 既存の title 要素があれば削除
+                                    const titleEl = document.querySelector('title');
+                                    if (titleEl) titleEl.remove();
+
+                                    // document.title をゲッターのみのプロパティにする（最強の固定）
+                                    Object.defineProperty(document, 'title', {
+                                        get: () => newTitle,
+                                        set: () => { /* 他からの設定を無視 */ },
+                                        configurable: true, // 再試行可能にするため
+                                        enumerable: true
+                                    });
+
+                                    // 即座に反映（もし上記が効かない環境向けのバックアップ）
+                                    document.title = newTitle;
+                                    console.log('[PDFLock] Title property locked to:', newTitle);
+                                } catch (e) {
+                                    // defineProperty が失敗した場合のフォールバック
+                                    document.title = newTitle;
+                                    console.warn('[PDFLock] defineProperty failed, fallback to normal title set');
+                                }
                             },
                             args: [finalFilename],
-                        }).then(() => {
-                            console.log(`[Background] Title script injected successfully for tab ${tabId}`);
                         }).catch(err => console.warn('[Background] Script injection failed:', err));
+                    }
+
+                    if (changeInfo.status === 'complete') {
+                        // 読み込み完了後、少し待ってからリスナーを解除（念のため数回走らせる）
+                        setTimeout(() => browser.tabs.onUpdated.removeListener(listener), 5000);
                     }
                 }
             };
@@ -116,16 +129,13 @@ export default defineBackground(() => {
 
             console.log(`[Background] Creating tab for ${url}...`);
             const tab = await browser.tabs.create({ url });
-            targetTabId = tab.id; // ここでIDを確定させる
+            targetTabId = tab.id; 
             console.log(`[Background] Tab created: ID=${tab.id}`);
 
             setTimeout(() => {
-                console.log(`[Background] Removing temporary rule ${ruleId}`);
                 browser.declarativeNetRequest.updateDynamicRules({
                     removeRuleIds: [ruleId],
                 }).catch(() => {});
-                // 念のためタイムアウトでリスナーも解除
-                browser.tabs.onUpdated.removeListener(listener);
             }, 60000);
             
             return true;
