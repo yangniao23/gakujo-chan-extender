@@ -3,7 +3,7 @@
  * メッセージリーダーからのタブ自動化リクエストを処理
  */
 
-import { runtime, tabs } from '@/core/browser/api';
+import { browser } from 'wxt/browser';
 
 interface TabAutomationMessage {
   url: string;
@@ -21,7 +21,7 @@ async function handleTabAutomation(message: TabAutomationMessage): Promise<void>
 
   try {
     // バックグラウンドでタブを開く
-    const tab = await tabs.create({
+    const tab = await browser.tabs.create({
       url: message.url,
       active: false, // アクティブにしない
     });
@@ -29,7 +29,7 @@ async function handleTabAutomation(message: TabAutomationMessage): Promise<void>
     // 1秒後にタブを閉じる
     setTimeout(async () => {
       if (tab.id) {
-        await tabs.remove(tab.id);
+        await browser.tabs.remove(tab.id);
       }
     }, 1000);
 
@@ -43,7 +43,7 @@ async function handleTabAutomation(message: TabAutomationMessage): Promise<void>
  * メッセージリスナーを初期化
  */
 function initMessageListener(): void {
-  runtime.onMessage.addListener((message: unknown) => {
+  browser.runtime.onMessage.addListener((message: unknown) => {
     const msg = message as TabAutomationMessage;
     if (msg.url) {
       handleTabAutomation(msg);

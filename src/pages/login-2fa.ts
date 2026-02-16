@@ -4,7 +4,7 @@
  */
 
 import { waitForElement } from '@/core/dom/element-waiter';
-import { storage } from '@/core/browser/api';
+import { browser } from 'wxt/browser';
 import { base32toHex } from '@/core/auth/convert';
 import {
   generateOtp,
@@ -104,7 +104,7 @@ async function handleKeySave(): Promise<void> {
   const rawKey = getValue(input);
   try {
     const cleanedKey = validateAndSanitizeKey(rawKey);
-    await storage.set(STORAGE_KEY, cleanedKey);
+    await browser.storage.local.set({ [STORAGE_KEY]: cleanedKey });
     alert('2FA鍵を保存しました');
   } catch (error) {
     alert('Key形式が不正です (Base32 A-Z2-7)。');
@@ -119,7 +119,8 @@ async function fillTotpToken(): Promise<void> {
   console.log('[2FA] fillTotpToken called');
   
   try {
-    const rawBase32 = await storage.get<string>(STORAGE_KEY);
+    const result = await browser.storage.local.get(STORAGE_KEY);
+    const rawBase32 = result[STORAGE_KEY] as string;
 
     if (!rawBase32) {
       console.debug('[2FA] No stored key');

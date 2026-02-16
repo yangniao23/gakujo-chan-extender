@@ -3,7 +3,7 @@
  * タブメニューに拡張機能のバージョンを表示
  */
 
-import { runtime } from '@/core/browser/api';
+import { browser } from 'wxt/browser';
 
 /**
  * バージョン情報を表示
@@ -15,7 +15,7 @@ async function showVersion(): Promise<void> {
     return;
   }
 
-  const manifest = await runtime.getManifest();
+  const manifest = browser.runtime.getManifest();
   const version = manifest.version;
 
   const li = document.createElement('li');

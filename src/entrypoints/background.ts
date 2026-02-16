@@ -5,7 +5,7 @@
  * - PDFタブタイトルの書き換え (scripting)
  */
 
-import { runtime, tabs, declarativeNetRequest, scripting } from '@/core/browser/api';
+import { browser } from 'wxt/browser';
 
 export default defineBackground(() => {
     // URLとファイル名のマッピングを保持
@@ -37,7 +37,7 @@ export default defineBackground(() => {
         };
 
         try {
-            await declarativeNetRequest.updateDynamicRules({
+            await browser.declarativeNetRequest.updateDynamicRules({
                 removeRuleIds: [ruleId],
                 addRules: [rule],
             });
@@ -80,13 +80,13 @@ export default defineBackground(() => {
         };
 
         try {
-            await declarativeNetRequest.updateDynamicRules({
+            await browser.declarativeNetRequest.updateDynamicRules({
                 addRules: [rule],
             });
             console.log(`[Background] Rule registered: ${finalFilename} for ${url}`);
             
             setTimeout(() => {
-                declarativeNetRequest.updateDynamicRules({
+                browser.declarativeNetRequest.updateDynamicRules({
                     removeRuleIds: [ruleId],
                 }).catch(() => {});
             }, 60000);
@@ -99,12 +99,12 @@ export default defineBackground(() => {
     };
 
     // タブが更新されたときにタイトルを書き換える
-    tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+    browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
         if (changeInfo.status === 'complete' && tab.url) {
             const title = pendingTitles.get(tab.url);
             if (title) {
                 try {
-                    await scripting.executeScript({
+                    await browser.scripting.executeScript({
                         target: { tabId },
                         func: (newTitle: string) => {
                             // タイトルを設定
@@ -145,7 +145,7 @@ export default defineBackground(() => {
     setupPdfInlineRules();
 
     // メッセージリスナー
-    runtime.onMessage.addListener(
+    browser.runtime.onMessage.addListener(
         (message: { type?: string; url?: string; filename?: string }, sender, sendResponse) => {
             if (message.type === 'PREPARE_PDF' && message.url && message.filename) {
                 registerSpecificPdfRule(message.url, message.filename).then(success => {
