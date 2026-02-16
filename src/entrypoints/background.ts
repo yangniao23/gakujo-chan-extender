@@ -104,35 +104,37 @@ export default defineBackground(() => {
             const title = pendingTitles.get(tab.url);
             if (title) {
                 try {
+                    // ChromeのPDFビューア対策: 完了直後だと上書きされるため少し待機して実行
                     await browser.scripting.executeScript({
                         target: { tabId },
                         func: (newTitle: string) => {
-                            // タイトルを設定
-                            document.title = newTitle;
-
-                            // 以降の書き換えを監視して阻止する
-                            const observer = new MutationObserver(() => {
+                            const applyTitle = () => {
                                 if (document.title !== newTitle) {
                                     document.title = newTitle;
                                 }
-                            });
+                            };
 
+                            // 1. 即座に適用試行
+                            applyTitle();
+
+                            // 2. MutationObserverで監視
+                            const observer = new MutationObserver(applyTitle);
                             observer.observe(document.documentElement, {
                                 childList: true,
                                 subtree: true,
                                 characterData: true
                             });
 
-                            // タイトル要素自体も直接監視（存在する場合）
-                            const titleEl = document.querySelector('title');
-                            if (titleEl) {
-                                observer.observe(titleEl, { characterData: true, childList: true });
-                            }
+                            // 3. Chromeの強力な上書き対策: 最初の数秒間は定期的に強制上書き
+                            let count = 0;
+                            const interval = setInterval(() => {
+                                applyTitle();
+                                if (count++ > 10) clearInterval(interval); // 300ms * 10 = 3秒程度
+                            }, 300);
                         },
                         args: [title],
                     });
-                    console.log(`[Background] Title override observer started: ${title}`);
-                    // 一度適用したら削除
+                    console.log(`[Background] Title override sequence started: ${title}`);
                     pendingTitles.delete(tab.url);
                 } catch (error) {
                     console.warn('[Background] Failed to override title:', error);
