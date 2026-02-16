@@ -102,11 +102,31 @@ export default defineBackground(() => {
                     await browser.scripting.executeScript({
                         target: { tabId },
                         func: (newTitle) => {
+                            // タイトルを設定
                             document.title = newTitle;
+
+                            // 以降の書き換えを監視して阻止する
+                            const observer = new MutationObserver(() => {
+                                if (document.title !== newTitle) {
+                                    document.title = newTitle;
+                                }
+                            });
+
+                            observer.observe(document.documentElement, {
+                                childList: true,
+                                subtree: true,
+                                characterData: true
+                            });
+
+                            // タイトル要素自体も直接監視（存在する場合）
+                            const titleEl = document.querySelector('title');
+                            if (titleEl) {
+                                observer.observe(titleEl, { characterData: true, childList: true });
+                            }
                         },
                         args: [title],
                     });
-                    console.log(`[Background] Title overridden: ${title}`);
+                    console.log(`[Background] Title override observer started: ${title}`);
                     // 一度適用したら削除
                     pendingTitles.delete(tab.url);
                 } catch (error) {
