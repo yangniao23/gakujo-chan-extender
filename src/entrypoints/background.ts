@@ -78,50 +78,53 @@ export default defineBackground(() => {
                 addRules: [rule],
             });
 
-            // リスナーを先に登録
             let targetTabId: number | undefined;
             const listener = (tabId: number, changeInfo: chrome.tabs.TabChangeInfo) => {
                 if (targetTabId !== undefined && tabId === targetTabId) {
                     console.log(`[Background] Tab ${tabId} updated: status=${changeInfo.status}`);
-                    
-                    // ChromeのPDFビューアは loading 中から complete にかけて何度もタイトルを上書きするため、
-                    // loading 以降、複数回スクリプトを実行してタイトルをロックする
-                    if (changeInfo.status === 'loading' || changeInfo.status === 'complete') {
-                        console.log(`[Background] Tab ${tabId} ready for injection. Locking title to: ${finalFilename}`);
-                        
-                        browser.scripting.executeScript({
-                            target: { tabId },
-                            func: (newTitle: string) => {
-                                // タイトルのプロパティを再定義して、外部からの書き換えをブロックする
-                                try {
-                                    // 既存の title 要素があれば削除
-                                    const titleEl = document.querySelector('title');
-                                    if (titleEl) titleEl.remove();
-
-                                    // document.title をゲッターのみのプロパティにする（最強の固定）
-                                    Object.defineProperty(document, 'title', {
-                                        get: () => newTitle,
-                                        set: () => { /* 他からの設定を無視 */ },
-                                        configurable: true, // 再試行可能にするため
-                                        enumerable: true
-                                    });
-
-                                    // 即座に反映（もし上記が効かない環境向けのバックアップ）
-                                    document.title = newTitle;
-                                    console.log('[PDFLock] Title property locked to:', newTitle);
-                                } catch (e) {
-                                    // defineProperty が失敗した場合のフォールバック
-                                    document.title = newTitle;
-                                    console.warn('[PDFLock] defineProperty failed, fallback to normal title set');
-                                }
-                            },
-                            args: [finalFilename],
-                        }).catch(err => console.warn('[Background] Script injection failed:', err));
-                    }
-
                     if (changeInfo.status === 'complete') {
-                        // 読み込み完了後、少し待ってからリスナーを解除（念のため数回走らせる）
-                        setTimeout(() => browser.tabs.onUpdated.removeListener(listener), 5000);
+                        browser.tabs.onUpdated.removeListener(listener);
+                        console.log(`[Background] Tab ${tabId} load complete. Waiting 1.5s for injection...`);
+                        
+                        // ChromeのPDFビューア対策: 完了直後だと上書きされるため、1.5秒待ってから「最強」のループを注入する
+                        setTimeout(() => {
+                            browser.scripting.executeScript({
+                                target: { tabId },
+                                world: 'MAIN',
+                                func: (newTitle: string) => {
+                                    console.log('[GakujoChan] Persistent title lock activated');
+                                    
+                                    const forceSet = () => {
+                                        if (document.title !== newTitle) {
+                                            document.title = newTitle;
+                                        }
+                                    };
+
+                                    // プロパティ自体をロック（可能な場合）
+                                    try {
+                                        Object.defineProperty(document, 'title', {
+                                            get: () => newTitle,
+                                            set: () => {},
+                                            configurable: true
+                                        });
+                                    } catch (e) {}
+
+                                    // 強制上書きループ（最初の10秒間は高速、その後は低速）
+                                    forceSet();
+                                    let fastInterval = setInterval(forceSet, 200);
+                                    setTimeout(() => {
+                                        clearInterval(fastInterval);
+                                        setInterval(forceSet, 1000);
+                                    }, 10000);
+
+                                    // DOMの変更も監視
+                                    new MutationObserver(forceSet).observe(document, { subtree: true, childList: true });
+                                },
+                                args: [finalFilename],
+                            }).then(() => {
+                                console.log(`[Background] Persistent title script injected for tab ${tabId}`);
+                            }).catch(err => console.warn('[Background] Script injection failed:', err));
+                        }, 1500);
                     }
                 }
             };
@@ -133,9 +136,11 @@ export default defineBackground(() => {
             console.log(`[Background] Tab created: ID=${tab.id}`);
 
             setTimeout(() => {
+                console.log(`[Background] Removing temporary rule ${ruleId}`);
                 browser.declarativeNetRequest.updateDynamicRules({
                     removeRuleIds: [ruleId],
                 }).catch(() => {});
+                browser.tabs.onUpdated.removeListener(listener);
             }, 60000);
             
             return true;
