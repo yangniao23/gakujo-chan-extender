@@ -15,5 +15,10 @@ export default defineConfig({
             48: '/icon48.png',
             128: '/icon128.png',
         },
+        browser_specific_settings: {
+            gecko: {
+                id: 'gakujo-chan-extender@ksmt.jp',
+            },
+        },
     },
 });
