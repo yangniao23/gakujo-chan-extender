@@ -32,29 +32,25 @@ export default defineContentScript({
                 // リンクテキストをファイル名として取得
                 const filename = anchor.innerText.trim() || 'document';
                 
-                // 絶対URLを取得し、末尾にダミーのファイル名を付与
-                // 例: .../campussquare.do?id=123&/ファイル名.pdf
-                // 多くのサーバーはクエリ内の &/... 以降を無視するが、ブラウザはこれをファイル名として認識する
-                const urlObj = new URL(href, window.location.href);
-                urlObj.searchParams.append('', `/${filename}.pdf`);
-                const openUrl = urlObj.href;
+                // 絶対URLを取得
+                const absoluteUrl = new URL(href, window.location.href).href;
 
                 console.log(`[IframePdfHandler] Preparing to open ${filename}...`);
 
                 try {
-                    // 背景スクリプトに準備を依頼（URLはダミー付与後のものを使用）
+                    // 背景スクリプトに準備を依頼
                     await browser.runtime.sendMessage({
                         type: 'PREPARE_PDF',
-                        url: openUrl,
+                        url: absoluteUrl,
                         filename: filename
                     });
                     
                     // 準備ができたら新しいタブで開く
-                    window.open(openUrl, '_blank');
+                    window.open(absoluteUrl, '_blank');
                     console.log(`[IframePdfHandler] Opening ${filename} in new tab`);
                 } catch (error) {
                     console.error('[IframePdfHandler] Failed to prepare PDF:', error);
-                    window.open(openUrl, '_blank');
+                    window.open(absoluteUrl, '_blank');
                 }
             }
         }, true);
