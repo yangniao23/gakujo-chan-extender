@@ -3,69 +3,57 @@
  * Chrome/Firefox両対応
  */
 
-// ブラウザAPIの型定義
-type BrowserAPI = typeof chrome | typeof browser;
-
-/**
- * 実行環境のブラウザAPIを取得
- */
-function getBrowserAPI(): BrowserAPI {
-  if (typeof browser !== 'undefined') {
-    return browser; // Firefox / Polyfilled Chrome
-  }
-  if (typeof chrome !== 'undefined') {
-    return chrome; // Chrome native
-  }
-  throw new Error('No browser API available');
-}
-
-const api = getBrowserAPI();
-
-/**
- * ストレージAPI（Promise統一）
- */
-export const storage = {
-  async get<T = any>(key: string): Promise<T | undefined> {
-    const result = await api.storage.local.get(key);
-    return result[key] as T;
-  },
-
-  async set(key: string, value: any): Promise<void> {
-    await api.storage.local.set({ [key]: value });
-  },
-
-  async remove(key: string): Promise<void> {
-    await api.storage.local.remove(key);
-  },
-
-  async clear(): Promise<void> {
-    await api.storage.local.clear();
-  },
-};
-
 /**
  * Runtime API
  */
 export const runtime = {
   getManifest() {
-    return api.runtime.getManifest();
+    if (typeof browser !== 'undefined') return browser.runtime.getManifest();
+    return chrome.runtime.getManifest();
   },
 
   sendMessage<T = any>(message: any): Promise<T> {
-    return api.runtime.sendMessage(message);
+    if (typeof browser !== 'undefined') return browser.runtime.sendMessage(message);
+    return new Promise((resolve) => {
+      chrome.runtime.sendMessage(message, (response) => resolve(response));
+    });
   },
 
   onMessage: {
     addListener(
       callback: (message: any, sender: any, sendResponse: (response?: any) => void) => void | boolean
     ) {
-      api.runtime.onMessage.addListener(callback);
+      if (typeof browser !== 'undefined') {
+        browser.runtime.onMessage.addListener(callback);
+      } else {
+        chrome.runtime.onMessage.addListener(callback);
+      }
     },
   },
+};
 
-  getURL(path: string): string {
-    return api.runtime.getURL(path);
-  }
+/**
+ * Storage API
+ */
+export const storage = {
+  async get<T = any>(key: string): Promise<T | undefined> {
+    if (typeof browser !== 'undefined') {
+      const result = await browser.storage.local.get(key);
+      return result[key] as T;
+    }
+    return new Promise((resolve) => {
+      chrome.storage.local.get(key, (result) => resolve(result[key] as T));
+    });
+  },
+
+  async set(key: string, value: any): Promise<void> {
+    if (typeof browser !== 'undefined') {
+      return await browser.storage.local.set({ [key]: value });
+    }
+    return new Promise((resolve) => {
+      chrome.storage.local.set({ [key]: value }, () => resolve());
+    });
+  },
 };
 
 /**
@@ -73,18 +61,32 @@ export const runtime = {
  */
 export const tabs = {
   async create(options: chrome.tabs.CreateProperties): Promise<chrome.tabs.Tab> {
-    return await api.tabs.create(options as any) as any;
+    if (typeof browser !== 'undefined') {
+      return await browser.tabs.create(options as any) as any;
+    }
+    return new Promise((resolve) => {
+      chrome.tabs.create(options, (tab) => resolve(tab));
+    });
   },
 
   async remove(tabId: number): Promise<void> {
-    await api.tabs.remove(tabId);
+    if (typeof browser !== 'undefined') {
+      return await browser.tabs.remove(tabId);
+    }
+    return new Promise((resolve) => {
+      chrome.tabs.remove(tabId, () => resolve());
+    });
   },
 
   onUpdated: {
     addListener(
       callback: (tabId: number, changeInfo: chrome.tabs.TabChangeInfo, tab: chrome.tabs.Tab) => void
     ) {
-      api.tabs.onUpdated.addListener(callback as any);
+      if (typeof browser !== 'undefined') {
+        browser.tabs.onUpdated.addListener(callback);
+      } else {
+        chrome.tabs.onUpdated.addListener(callback);
+      }
     }
   }
 };
@@ -97,7 +99,12 @@ export const declarativeNetRequest = {
     addRules?: chrome.declarativeNetRequest.Rule[];
     removeRuleIds?: number[];
   }): Promise<void> {
-    return await api.declarativeNetRequest.updateDynamicRules(options as any);
+    if (typeof browser !== 'undefined') {
+      return await (browser as any).declarativeNetRequest.updateDynamicRules(options);
+    }
+    return new Promise((resolve) => {
+      chrome.declarativeNetRequest.updateDynamicRules(options, () => resolve());
+    });
   }
 };
 
@@ -110,6 +117,11 @@ export const scripting = {
     func: (...args: any[]) => T;
     args?: any[];
   }): Promise<chrome.scripting.InjectionResult<T>[]> {
-    return await api.scripting.executeScript(options as any) as any;
+    if (typeof browser !== 'undefined') {
+      return await (browser as any).scripting.executeScript(options as any);
+    }
+    return new Promise((resolve) => {
+      chrome.scripting.executeScript(options as any, (results) => resolve(results as any));
+    });
   }
 };

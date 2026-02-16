@@ -3,6 +3,8 @@
  * iframe内のリンクがクリックされた際、新しいタブで開くように調整する
  */
 
+import { runtime } from '@/core/browser/api';
+
 export default defineContentScript({
     matches: ['https://gakujo.iess.niigata-u.ac.jp/campusweb/*'],
     allFrames: true, // 全てのiframe内で実行
@@ -39,7 +41,7 @@ export default defineContentScript({
 
                 try {
                     // 背景スクリプトに準備を依頼
-                    await browser.runtime.sendMessage({
+                    await runtime.sendMessage({
                         type: 'PREPARE_PDF',
                         url: absoluteUrl,
                         filename: filename
