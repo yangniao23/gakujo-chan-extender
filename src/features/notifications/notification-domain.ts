@@ -5,7 +5,7 @@
  * - メッセージ送信処理
  */
 
-import { runtime } from '@/core/browser/api';
+import { browser } from 'wxt/browser';
 import { TABLE_DATA_START_ROW_INDEX, TABLE_HEADER_ROW_INDEX, RELOAD_DELAY } from '@/core/constants';
 import {
     NOTIFICATION_COLUMN_INDEX,
@@ -59,7 +59,7 @@ export async function markNotificationsAsRead(
     for (let i = TABLE_DATA_START_ROW_INDEX; i <= readCount && i < tableArray.length; i++) {
         const url = extractUrlFromHtml(tableArray[i][NOTIFICATION_COLUMN_INDEX.LINK]);
         try {
-            await runtime.sendMessage({ url });
+            await browser.runtime.sendMessage({ url });
             console.log('[MessageReader] Sent URL:', url);
         } catch (error) {
             console.error('[MessageReader] Failed to send message:', error);
