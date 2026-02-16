@@ -11,10 +11,10 @@ type BrowserAPI = typeof chrome | typeof browser;
  */
 function getBrowserAPI(): BrowserAPI {
   if (typeof browser !== 'undefined') {
-    return browser; // Firefox
+    return browser; // Firefox / Polyfilled Chrome
   }
   if (typeof chrome !== 'undefined') {
-    return chrome; // Chrome
+    return chrome; // Chrome native
   }
   throw new Error('No browser API available');
 }
@@ -26,48 +26,20 @@ const api = getBrowserAPI();
  */
 export const storage = {
   async get<T = any>(key: string): Promise<T | undefined> {
-    if (typeof browser !== 'undefined') {
-      // Firefox: Promise
-      const result = await browser.storage.local.get(key);
-      return result[key] as T;
-    } else {
-      // Chrome: Callback → Promise変換
-      return new Promise((resolve) => {
-        chrome.storage.local.get(key, (result) => {
-          resolve(result[key] as T);
-        });
-      });
-    }
+    const result = await api.storage.local.get(key);
+    return result[key] as T;
   },
 
   async set(key: string, value: any): Promise<void> {
-    if (typeof browser !== 'undefined') {
-      await browser.storage.local.set({ [key]: value });
-    } else {
-      return new Promise((resolve) => {
-        chrome.storage.local.set({ [key]: value }, () => resolve());
-      });
-    }
+    await api.storage.local.set({ [key]: value });
   },
 
   async remove(key: string): Promise<void> {
-    if (typeof browser !== 'undefined') {
-      await browser.storage.local.remove(key);
-    } else {
-      return new Promise((resolve) => {
-        chrome.storage.local.remove(key, () => resolve());
-      });
-    }
+    await api.storage.local.remove(key);
   },
 
   async clear(): Promise<void> {
-    if (typeof browser !== 'undefined') {
-      await browser.storage.local.clear();
-    } else {
-      return new Promise((resolve) => {
-        chrome.storage.local.clear(() => resolve());
-      });
-    }
+    await api.storage.local.clear();
   },
 };
 
@@ -80,13 +52,7 @@ export const runtime = {
   },
 
   sendMessage<T = any>(message: any): Promise<T> {
-    if (typeof browser !== 'undefined') {
-      return browser.runtime.sendMessage(message);
-    } else {
-      return new Promise((resolve) => {
-        chrome.runtime.sendMessage(message, resolve);
-      });
-    }
+    return api.runtime.sendMessage(message);
   },
 
   onMessage: {
@@ -96,6 +62,10 @@ export const runtime = {
       api.runtime.onMessage.addListener(callback);
     },
   },
+
+  getURL(path: string): string {
+    return api.runtime.getURL(path);
+  }
 };
 
 /**
@@ -103,23 +73,43 @@ export const runtime = {
  */
 export const tabs = {
   async create(options: chrome.tabs.CreateProperties): Promise<chrome.tabs.Tab> {
-    if (typeof browser !== 'undefined') {
-      const result = await browser.tabs.create(options as unknown as Parameters<typeof browser.tabs.create>[0]);
-      return result as unknown as chrome.tabs.Tab;
-    } else {
-      return new Promise((resolve) => {
-        chrome.tabs.create(options, resolve);
-      });
-    }
+    return await api.tabs.create(options as any) as any;
   },
 
   async remove(tabId: number): Promise<void> {
-    if (typeof browser !== 'undefined') {
-      await browser.tabs.remove(tabId);
-    } else {
-      return new Promise((resolve) => {
-        chrome.tabs.remove(tabId, () => resolve());
-      });
-    }
+    await api.tabs.remove(tabId);
   },
+
+  onUpdated: {
+    addListener(
+      callback: (tabId: number, changeInfo: chrome.tabs.TabChangeInfo, tab: chrome.tabs.Tab) => void
+    ) {
+      api.tabs.onUpdated.addListener(callback as any);
+    }
+  }
+};
+
+/**
+ * DeclarativeNetRequest API
+ */
+export const declarativeNetRequest = {
+  async updateDynamicRules(options: {
+    addRules?: chrome.declarativeNetRequest.Rule[];
+    removeRuleIds?: number[];
+  }): Promise<void> {
+    return await api.declarativeNetRequest.updateDynamicRules(options as any);
+  }
+};
+
+/**
+ * Scripting API
+ */
+export const scripting = {
+  async executeScript<T = any>(options: {
+    target: { tabId: number; frameIds?: number[] };
+    func: (...args: any[]) => T;
+    args?: any[];
+  }): Promise<chrome.scripting.InjectionResult<T>[]> {
+    return await api.scripting.executeScript(options as any) as any;
+  }
 };
