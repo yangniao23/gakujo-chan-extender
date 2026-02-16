@@ -27,7 +27,7 @@ export default defineContentScript({
                                  href.toLowerCase().endsWith('.pdf');
 
             if (isDownloadLink) {
-                // デフォルトの挙動（ダウンロードやページ遷移）を停止
+                // デフォルトの挙動を停止（背景スクリプトでタブを開くため）
                 event.preventDefault();
                 event.stopPropagation();
 
@@ -37,21 +37,18 @@ export default defineContentScript({
                 // 絶対URLを取得
                 const absoluteUrl = new URL(href, window.location.href).href;
 
-                console.log(`[IframePdfHandler] Preparing to open ${filename}...`);
+                console.log(`[IframePdfHandler] Requesting background to open ${filename}...`);
 
                 try {
-                    // 背景スクリプトに準備を依頼
+                    // 背景スクリプトに「タブを開いてタイトルを設定する」よう依頼
                     await browser.runtime.sendMessage({
-                        type: 'PREPARE_PDF',
+                        type: 'OPEN_PDF',
                         url: absoluteUrl,
                         filename: filename
                     });
-                    
-                    // 準備ができたら新しいタブで開く
-                    window.open(absoluteUrl, '_blank');
-                    console.log(`[IframePdfHandler] Opening ${filename} in new tab`);
                 } catch (error) {
-                    console.error('[IframePdfHandler] Failed to prepare PDF:', error);
+                    console.error('[IframePdfHandler] Failed to delegate PDF opening:', error);
+                    // 失敗した時のフォールバック
                     window.open(absoluteUrl, '_blank');
                 }
             }
