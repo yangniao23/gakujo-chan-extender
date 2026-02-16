@@ -9,7 +9,7 @@ export default defineConfig({
         name: 'More-Better-Gakujo',
         version: '0.64.0',
         description: '学情の不便を多少解消するかもしれない新大生用拡張機能',
-        permissions: ['storage', 'declarativeNetRequest'],
+        permissions: ['storage', 'declarativeNetRequest', 'tabs', 'scripting'],
         host_permissions: ['https://gakujo.iess.niigata-u.ac.jp/*'],
         icons: {
             48: '/icon48.png',

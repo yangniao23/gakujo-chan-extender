@@ -2,9 +2,13 @@
  * Background Service Worker
  * - メッセージリーダー機能のためのURL処理
  * - PDF強制ダウンロード防止処理 (declarativeNetRequest)
+ * - PDFタブタイトルの書き換え (scripting)
  */
 
 export default defineBackground(() => {
+    // URLとファイル名のマッピングを保持
+    const pendingTitles = new Map<string, string>();
+
     // PDFの強制ダウンロードを防止する動的ルールの設定
     const setupPdfInlineRules = async () => {
         const ruleId = 1;
@@ -46,12 +50,14 @@ export default defineBackground(() => {
         const ruleId = Math.floor(Math.random() * 10000) + 100;
         const finalFilename = filename.toLowerCase().endsWith('.pdf') ? filename : `${filename}.pdf`;
 
-        // RFC 6266 に準拠した filename* の指定（日本語対応を強化）
+        // タイトル書き換え用に保存
+        pendingTitles.set(url, finalFilename);
+
         const dispositionValue = `inline; filename="${encodeURIComponent(finalFilename)}"; filename*=UTF-8''${encodeURIComponent(finalFilename)}`;
 
         const rule = {
             id: ruleId,
-            priority: 10, // デフォルトより大幅に高くする
+            priority: 10,
             action: {
                 type: 'modifyHeaders',
                 responseHeaders: [
@@ -63,8 +69,7 @@ export default defineBackground(() => {
                 ],
             },
             condition: {
-                // ダミーパラメータを含んだURLでもマッチするように前方一致フィルタを使用
-                urlFilter: url.split('&')[0], 
+                urlFilter: url.split('#')[0], 
                 resourceTypes: ['main_frame', 'sub_frame'] as browser.declarativeNetRequest.ResourceType[],
             },
         };
@@ -75,7 +80,6 @@ export default defineBackground(() => {
             });
             console.log(`[Background] Rule registered: ${finalFilename} for ${url}`);
             
-            // リクエスト完了後にルールを削除
             setTimeout(() => {
                 browser.declarativeNetRequest.updateDynamicRules({
                     removeRuleIds: [ruleId],
@@ -89,6 +93,29 @@ export default defineBackground(() => {
         }
     };
 
+    // タブが更新されたときにタイトルを書き換える
+    browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+        if (changeInfo.status === 'complete' && tab.url) {
+            const title = pendingTitles.get(tab.url);
+            if (title) {
+                try {
+                    await browser.scripting.executeScript({
+                        target: { tabId },
+                        func: (newTitle) => {
+                            document.title = newTitle;
+                        },
+                        args: [title],
+                    });
+                    console.log(`[Background] Title overridden: ${title}`);
+                    // 一度適用したら削除
+                    pendingTitles.delete(tab.url);
+                } catch (error) {
+                    console.warn('[Background] Failed to override title:', error);
+                }
+            }
+        }
+    });
+
     // 初期化時にデフォルトルールを設定
     setupPdfInlineRules();
 
@@ -99,7 +126,7 @@ export default defineBackground(() => {
                 registerSpecificPdfRule(message.url, message.filename).then(success => {
                     sendResponse({ success });
                 });
-                return true; // 非同期応答を許可
+                return true; 
             }
 
             if (message.url) {
