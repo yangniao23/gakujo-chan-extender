@@ -5,6 +5,8 @@
  * - PDFタブタイトルの書き換え (scripting)
  */
 
+import { runtime, tabs, declarativeNetRequest, scripting } from '@/core/browser/api';
+
 export default defineBackground(() => {
     // URLとファイル名のマッピングを保持
     const pendingTitles = new Map<string, string>();
@@ -12,15 +14,15 @@ export default defineBackground(() => {
     // PDFの強制ダウンロードを防止する動的ルールの設定
     const setupPdfInlineRules = async () => {
         const ruleId = 1;
-        const rule = {
+        const rule: chrome.declarativeNetRequest.Rule = {
             id: ruleId,
             priority: 1,
             action: {
-                type: 'modifyHeaders',
+                type: 'modifyHeaders' as chrome.declarativeNetRequest.RuleActionType,
                 responseHeaders: [
                     {
                         header: 'Content-Disposition',
-                        operation: 'set',
+                        operation: 'set' as chrome.declarativeNetRequest.HeaderOperation,
                         value: 'inline',
                     },
                 ],
@@ -28,16 +30,16 @@ export default defineBackground(() => {
             condition: {
                 urlFilter: '|https://gakujo.iess.niigata-u.ac.jp/campusweb/*',
                 resourceTypes: [
-                    'main_frame',
-                    'sub_frame',
-                ] as browser.declarativeNetRequest.ResourceType[],
+                    'main_frame' as chrome.declarativeNetRequest.ResourceType,
+                    'sub_frame' as chrome.declarativeNetRequest.ResourceType,
+                ],
             },
         };
 
         try {
-            await browser.declarativeNetRequest.updateDynamicRules({
+            await declarativeNetRequest.updateDynamicRules({
                 removeRuleIds: [ruleId],
-                addRules: [rule as browser.declarativeNetRequest.Rule],
+                addRules: [rule],
             });
             console.log('[Background] Default PDF inline rule registered');
         } catch (error) {
@@ -55,33 +57,36 @@ export default defineBackground(() => {
 
         const dispositionValue = `inline; filename="${encodeURIComponent(finalFilename)}"; filename*=UTF-8''${encodeURIComponent(finalFilename)}`;
 
-        const rule = {
+        const rule: chrome.declarativeNetRequest.Rule = {
             id: ruleId,
             priority: 10,
             action: {
-                type: 'modifyHeaders',
+                type: 'modifyHeaders' as chrome.declarativeNetRequest.RuleActionType,
                 responseHeaders: [
                     {
                         header: 'Content-Disposition',
-                        operation: 'set',
+                        operation: 'set' as chrome.declarativeNetRequest.HeaderOperation,
                         value: dispositionValue,
                     },
                 ],
             },
             condition: {
                 urlFilter: url.split('#')[0], 
-                resourceTypes: ['main_frame', 'sub_frame'] as browser.declarativeNetRequest.ResourceType[],
+                resourceTypes: [
+                    'main_frame' as chrome.declarativeNetRequest.ResourceType,
+                    'sub_frame' as chrome.declarativeNetRequest.ResourceType,
+                ],
             },
         };
 
         try {
-            await browser.declarativeNetRequest.updateDynamicRules({
-                addRules: [rule as browser.declarativeNetRequest.Rule],
+            await declarativeNetRequest.updateDynamicRules({
+                addRules: [rule],
             });
             console.log(`[Background] Rule registered: ${finalFilename} for ${url}`);
             
             setTimeout(() => {
-                browser.declarativeNetRequest.updateDynamicRules({
+                declarativeNetRequest.updateDynamicRules({
                     removeRuleIds: [ruleId],
                 }).catch(() => {});
             }, 60000);
@@ -94,14 +99,14 @@ export default defineBackground(() => {
     };
 
     // タブが更新されたときにタイトルを書き換える
-    browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+    tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
         if (changeInfo.status === 'complete' && tab.url) {
             const title = pendingTitles.get(tab.url);
             if (title) {
                 try {
-                    await browser.scripting.executeScript({
+                    await scripting.executeScript({
                         target: { tabId },
-                        func: (newTitle) => {
+                        func: (newTitle: string) => {
                             // タイトルを設定
                             document.title = newTitle;
 
@@ -140,7 +145,7 @@ export default defineBackground(() => {
     setupPdfInlineRules();
 
     // メッセージリスナー
-    browser.runtime.onMessage.addListener(
+    runtime.onMessage.addListener(
         (message: { type?: string; url?: string; filename?: string }, sender, sendResponse) => {
             if (message.type === 'PREPARE_PDF' && message.url && message.filename) {
                 registerSpecificPdfRule(message.url, message.filename).then(success => {
