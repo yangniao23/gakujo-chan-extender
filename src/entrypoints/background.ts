@@ -63,8 +63,8 @@ export default defineBackground(() => {
                 ],
             },
             condition: {
-                // 完全一致を狙うために urlFilter を工夫
-                urlFilter: url.split('#')[0], 
+                // ダミーパラメータを含んだURLでもマッチするように前方一致フィルタを使用
+                urlFilter: url.split('&')[0], 
                 resourceTypes: ['main_frame', 'sub_frame'] as browser.declarativeNetRequest.ResourceType[],
             },
         };
