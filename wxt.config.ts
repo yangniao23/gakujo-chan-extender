@@ -17,7 +17,7 @@ export default defineConfig({
         },
         browser_specific_settings: {
             gecko: {
-                id: 'gakujo-chan-extender@ksmt.jp',
+                id: '{08c1f180-92b5-450f-a130-9c5e9d3e52ec}',
             },
         },
     },
