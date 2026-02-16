@@ -26,35 +26,79 @@ export default defineBackground(() => {
                 resourceTypes: [
                     'main_frame',
                     'sub_frame',
-                ] as chrome.declarativeNetRequest.ResourceType[],
+                ] as browser.declarativeNetRequest.ResourceType[],
             },
         };
 
         try {
             await browser.declarativeNetRequest.updateDynamicRules({
                 removeRuleIds: [ruleId],
-                addRules: [rule as chrome.declarativeNetRequest.Rule],
+                addRules: [rule as browser.declarativeNetRequest.Rule],
             });
-            console.log('[Background] PDF inline rule registered');
+            console.log('[Background] Default PDF inline rule registered');
         } catch (error) {
             console.error('[Background] Failed to register PDF inline rule:', error);
         }
     };
 
-    // 初期化時にルールを設定
+    // 特定のURLに対してファイル名を指定してルールを上書き
+    const registerSpecificPdfRule = async (url: string, filename: string) => {
+        // ID 2番以降を使用（一時的なルール）
+        const ruleId = Math.floor(Math.random() * 1000) + 10; 
+        
+        // ファイル名に拡張子がない場合は補完
+        const finalFilename = filename.toLowerCase().endsWith('.pdf') ? filename : `${filename}.pdf`;
+
+        const rule = {
+            id: ruleId,
+            priority: 2, // デフォルトルール(priority 1)より優先
+            action: {
+                type: 'modifyHeaders',
+                responseHeaders: [
+                    {
+                        header: 'Content-Disposition',
+                        operation: 'set',
+                        value: `inline; filename="${encodeURIComponent(finalFilename)}"`,
+                    },
+                ],
+            },
+            condition: {
+                urlFilter: url.split('?')[0], // クエリを除いた部分でマッチングを試みる
+                resourceTypes: ['main_frame', 'sub_frame'] as browser.declarativeNetRequest.ResourceType[],
+            },
+        };
+
+        try {
+            await browser.declarativeNetRequest.updateDynamicRules({
+                addRules: [rule as browser.declarativeNetRequest.Rule],
+            });
+            console.log(`[Background] Specific rule registered for ${finalFilename}`);
+            
+            // 30秒後にルールを削除（リクエスト完了後には不要なため）
+            setTimeout(async () => {
+                await browser.declarativeNetRequest.updateDynamicRules({
+                    removeRuleIds: [ruleId],
+                });
+            }, 30000);
+        } catch (error) {
+            console.warn('[Background] Failed to register specific PDF rule:', error);
+        }
+    };
+
+    // 初期化時にデフォルトルールを設定
     setupPdfInlineRules();
 
-    // メッセージリーダーからのURL受信処理
+    // メッセージリスナー
     browser.runtime.onMessage.addListener(
-        async (message: { url?: string }) => {
+        (message: { type?: string; url?: string; filename?: string }) => {
+            if (message.type === 'PREPARE_PDF' && message.url && message.filename) {
+                registerSpecificPdfRule(message.url, message.filename);
+                return;
+            }
+
             if (message.url) {
-                try {
-                    // URLにアクセスして既読にする
-                    await fetch(message.url);
-                    console.log('[Background] Marked as read:', message.url);
-                } catch (error) {
-                    console.error('[Background] Failed to mark as read:', error);
-                }
+                // 既存の既読処理
+                fetch(message.url).catch(err => console.error(err));
             }
         }
     );

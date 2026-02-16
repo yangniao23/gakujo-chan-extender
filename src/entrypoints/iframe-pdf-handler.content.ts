@@ -20,17 +20,29 @@ export default defineContentScript({
             if (!href) return;
 
             // 学情のダウンロードリンクやPDFらしきパスを検知
-            // campusweb/action/download... やファイル名に .pdf が含まれる場合
             const isDownloadLink = href.includes('download') || 
                                  href.includes('file') || 
                                  href.toLowerCase().endsWith('.pdf');
 
             if (isDownloadLink) {
+                // 絶対URLを取得（ルールマッチングのため）
+                const absoluteUrl = new URL(href, window.location.href).href;
+                
+                // リンクテキストをファイル名として取得（前後の空白を削除）
+                const filename = anchor.innerText.trim();
+
+                if (filename) {
+                    // 背景スクリプトにファイル名の準備を依頼
+                    browser.runtime.sendMessage({
+                        type: 'PREPARE_PDF',
+                        url: absoluteUrl,
+                        filename: filename
+                    });
+                }
+
                 // 新しいタブで開くように属性を変更
                 anchor.target = '_blank';
-                // もし onclick などで JavaScript が動いている場合でも、
-                // target="_blank" があればブラウザが優先してくれることが多い
-                console.log('[IframePdfHandler] Opening link in new tab:', href);
+                console.log(`[IframePdfHandler] Preparing to open ${filename} in new tab`);
             }
         }, true);
     },
