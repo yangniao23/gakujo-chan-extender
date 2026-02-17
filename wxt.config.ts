@@ -7,7 +7,7 @@ export default defineConfig({
 
     manifest: {
         name: 'More-Better-Gakujo',
-        version: '0.64.0',
+        version: '0.64.2',
         description: '学情の不便を多少解消するかもしれない新大生用拡張機能',
         permissions: ['storage', 'declarativeNetRequest', 'tabs', 'scripting'],
         host_permissions: ['https://gakujo.iess.niigata-u.ac.jp/*'],
