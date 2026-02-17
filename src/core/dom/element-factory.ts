@@ -202,7 +202,7 @@ export function remove(element: HTMLElement): void {
  * 要素の内容をクリア
  */
 export function clear(element: HTMLElement): HTMLElement {
-  element.innerHTML = '';
+  element.replaceChildren();
   return element;
 }
 

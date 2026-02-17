@@ -14,36 +14,24 @@ import {
 } from './constants';
 
 /**
- * テーブルを2次元配列に変換
+ * テーブルからURLを抽出
  */
-export function parseNotificationTable(table: HTMLTableElement): string[][] {
-    const result: string[][] = [];
+export function extractUrlsFromTable(table: HTMLTableElement, limit: number): string[] {
+    const urls: string[] = [];
 
-    for (let i = TABLE_DATA_START_ROW_INDEX; i < table.rows.length; i++) {
-        result[i] = [];
+    for (let i = TABLE_DATA_START_ROW_INDEX; i <= limit && i < table.rows.length; i++) {
         const row = table.rows[i];
-        for (let j = 0; j < table.rows[TABLE_HEADER_ROW_INDEX].cells.length; j++) {
-            result[i][j] = row.cells[j].innerHTML;
+        const cell = row.cells[NOTIFICATION_COLUMN_INDEX.LINK];
+        if (!cell) continue;
+
+        const anchor = cell.querySelector('a');
+        if (anchor) {
+            const href = anchor.getAttribute('href') || '';
+            urls.push(GAKUJO_BASE_URL + href.replace(/&amp;/g, '&'));
         }
     }
 
-    return result;
-}
-
-/**
- * HTMLからURLを抽出
- */
-export function extractUrlFromHtml(html: string): string {
-    // href="..." パターンから抽出
-    let url = html.substring(html.indexOf(URL_PATTERNS.HREF_START) + 2);
-    url = url.substring(0, url.indexOf(URL_PATTERNS.HREF_END));
-
-    // HTMLエンティティをデコード
-    while (url.indexOf(URL_PATTERNS.AMP_ENTITY) !== -1) {
-        url = url.replace(URL_PATTERNS.AMP_ENTITY, '');
-    }
-
-    return GAKUJO_BASE_URL + url;
+    return urls;
 }
 
 /**
@@ -53,11 +41,9 @@ export async function markNotificationsAsRead(
     table: HTMLTableElement,
     readCount: number
 ): Promise<void> {
-    const tableArray = parseNotificationTable(table);
+    const urls = extractUrlsFromTable(table, readCount);
 
-    // 指定数分だけURLを送信
-    for (let i = TABLE_DATA_START_ROW_INDEX; i <= readCount && i < tableArray.length; i++) {
-        const url = extractUrlFromHtml(tableArray[i][NOTIFICATION_COLUMN_INDEX.LINK]);
+    for (const url of urls) {
         try {
             await browser.runtime.sendMessage({ url });
             console.log('[MessageReader] Sent URL:', url);
