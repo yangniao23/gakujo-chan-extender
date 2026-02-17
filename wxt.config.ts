@@ -18,6 +18,7 @@ export default defineConfig({
         browser_specific_settings: {
             gecko: {
                 id: '{08c1f180-92b5-450f-a130-9c5e9d3e52ec}',
+                // @ts-expect-error wxt の型定義に存在しないプロパティ
                 data_collection_permissions: {
                     required: ['none'],
                 },
