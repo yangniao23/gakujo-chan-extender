@@ -271,11 +271,3 @@ export function replace(oldElement: HTMLElement, newElement: HTMLElement): void 
   oldElement.parentNode?.replaceChild(newElement, oldElement);
 }
 
-/**
- * テンプレートを解析して要素を作成
- */
-export function parseHTML(html: string): DocumentFragment {
-  const template = document.createElement('template');
-  template.innerHTML = html;
-  return template.content;
-}

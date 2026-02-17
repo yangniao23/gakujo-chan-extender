@@ -77,7 +77,6 @@ export {
   applyToFirst,
   clone,
   replace,
-  parseHTML,
 } from './element-advanced';
 
 // 要素待機
@@ -96,13 +95,9 @@ export {
 
 // テーブル操作ヘルパー
 export {
-  extractTableRowsRaw,
-  extractTableRowsText,
-  parseTableRows,
-  updateTableRows,
+  reorderTableRows,
   extractColumns,
   extractColumnText,
-  sortTableWithObjects,
 } from './table-helper';
 
 // ポーリング/待機ユーティリティ

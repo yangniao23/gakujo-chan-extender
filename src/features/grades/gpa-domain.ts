@@ -6,7 +6,7 @@
  */
 
 import { TABLE_DATA_START_ROW_INDEX, TABLE_HEADER_ROW_INDEX } from '@/core/constants';
-import { updateTableRows } from '@/core/dom';
+import { reorderTableRows } from '@/core/dom';
 import { sortBy, sum } from 'es-toolkit';
 import {
     GRADE_COLUMN_INDEX,
@@ -17,7 +17,7 @@ import {
  * 成績行のデータ構造
  */
 export interface GradeRow {
-    cells: string[];
+    element: HTMLTableRowElement;
     no: number;
     openingNumber: string;
     score: number;
@@ -63,18 +63,12 @@ export function formatGpaHeader(headerText: string, gpa: number): string {
  */
 export function parseGradeTable(table: HTMLTableElement): GradeRow[] {
     const rows: GradeRow[] = [];
-    const colCount = table.rows[TABLE_HEADER_ROW_INDEX].cells.length;
 
     for (let i = TABLE_DATA_START_ROW_INDEX; i < table.rows.length; i++) {
         const row = table.rows[i];
-        const cells: string[] = [];
-
-        for (let j = 0; j < colCount; j++) {
-            cells[j] = row.cells[j].innerHTML;
-        }
 
         rows.push({
-            cells,
+            element: row,
             no: parseFloat(row.cells[GRADE_COLUMN_INDEX.NO]?.textContent || '0'),
             openingNumber: row.cells[GRADE_COLUMN_INDEX.OPENING_NUMBER]?.textContent || '',
             score: row.cells[GRADE_COLUMN_INDEX.SCORE]?.textContent?.trim()
@@ -92,8 +86,8 @@ export function parseGradeTable(table: HTMLTableElement): GradeRow[] {
  * ソートされた配列でテーブルを更新
  */
 export function updateGradeTable(table: HTMLTableElement, rows: GradeRow[]): void {
-    const htmlRows = rows.map((row) => row.cells);
-    updateTableRows(table, htmlRows);
+    const elements = rows.map((row) => row.element);
+    reorderTableRows(table, elements);
 }
 
 /**

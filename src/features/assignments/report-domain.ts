@@ -6,7 +6,7 @@
  */
 
 import { TABLE_DATA_START_ROW_INDEX, TABLE_HEADER_ROW_INDEX } from '@/core/constants';
-import { updateTableRows } from '@/core/dom';
+import { reorderTableRows } from '@/core/dom';
 import { getCurrentDateTimeFormatted } from '@/core/utils/date';
 import { sortBy } from 'es-toolkit';
 import {
@@ -20,9 +20,11 @@ import {
  * レポート行のデータ構造
  */
 export interface ReportRow {
-    cells: string[];
+    element: HTMLTableRowElement;
     status: SubmissionStatus;
     deadline: string; // YYYYMMDDHHmm形式
+    content: string; // 開講番号用
+    title: string; // タイトル用
 }
 
 /**
@@ -47,21 +49,20 @@ export function setTempColorBlue(table: HTMLTableElement): void {
  */
 export function parseReportTable(table: HTMLTableElement): ReportRow[] {
     const rows: ReportRow[] = [];
-    const colCount = table.rows[TABLE_HEADER_ROW_INDEX].cells.length;
 
     for (let i = TABLE_DATA_START_ROW_INDEX; i < table.rows.length; i++) {
         const row = table.rows[i];
-        const cells: string[] = [];
         let status: SubmissionStatus = SubmissionStatus.NOT_SUBMITTED;
         let deadline = '';
+        let content = '';
+        let title = '';
 
-        for (let j = 0; j < colCount; j++) {
+        for (let j = 0; j < row.cells.length; j++) {
             const cell = row.cells[j];
-            cells[j] = cell.innerHTML;
+            const text = cell.textContent || '';
 
             // 提出状態を判定
             if (j === REPORT_COLUMN_INDEX.STATUS) {
-                const text = cell.textContent || '';
                 if (text.match(SUBMISSION_STATUS_PATTERNS.NOT_SUBMITTED)) {
                     status = SubmissionStatus.NOT_SUBMITTED;
                 } else if (text.match(SUBMISSION_STATUS_PATTERNS.TEMP_SAVED)) {
@@ -73,7 +74,6 @@ export function parseReportTable(table: HTMLTableElement): ReportRow[] {
 
             // 締切日時を抽出
             if (j === REPORT_COLUMN_INDEX.PERIOD) {
-                const text = cell.textContent || '';
                 const tildaIndex = text.indexOf('～');
                 if (tildaIndex !== -1) {
                     deadline = text
@@ -81,9 +81,19 @@ export function parseReportTable(table: HTMLTableElement): ReportRow[] {
                         .replace(/[\/\s:]/g, '');
                 }
             }
+
+            // 開講番号
+            if (j === REPORT_COLUMN_INDEX.CONTENT) {
+                content = text;
+            }
+
+            // タイトル
+            if (j === REPORT_COLUMN_INDEX.TITLE) {
+                title = text;
+            }
         }
 
-        rows.push({ cells, status, deadline });
+        rows.push({ element: row, status, deadline, content, title });
     }
 
     return rows;
@@ -93,8 +103,8 @@ export function parseReportTable(table: HTMLTableElement): ReportRow[] {
  * ソートされた配列でテーブルを更新
  */
 export function updateReportTable(table: HTMLTableElement, rows: ReportRow[]): void {
-    const htmlRows = rows.map((row) => row.cells);
-    updateTableRows(table, htmlRows);
+    const elements = rows.map((row) => row.element);
+    reorderTableRows(table, elements);
 }
 
 /**
@@ -119,7 +129,8 @@ export function sortReportsByDate(table: HTMLTableElement): void {
     ]);
 
     // 結合して更新
-    updateReportTable(table, [...sortedActive, ...sortedExpired]);
+    const sortedAll = [...sortedActive, ...sortedExpired];
+    reorderTableRows(table, sortedAll.map(r => r.element));
     setTempColorBlue(table);
 }
 
@@ -130,10 +141,10 @@ export function sortReportsByNumber(table: HTMLTableElement): void {
     const reportArray = parseReportTable(table);
 
     const sorted = sortBy(reportArray, [
-        (row) => row.cells[REPORT_COLUMN_INDEX.CONTENT] || '',
+        (row) => row.content,
     ]);
 
-    updateReportTable(table, sorted);
+    reorderTableRows(table, sorted.map(r => r.element));
     setTempColorBlue(table);
 }
 
@@ -144,9 +155,9 @@ export function sortReportsByTitle(table: HTMLTableElement): void {
     const reportArray = parseReportTable(table);
 
     const sorted = sortBy(reportArray, [
-        (row) => row.cells[REPORT_COLUMN_INDEX.TITLE] || '',
+        (row) => row.title,
     ]);
 
-    updateReportTable(table, sorted);
+    reorderTableRows(table, sorted.map(r => r.element));
     setTempColorBlue(table);
 }
