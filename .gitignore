@@ -7,9 +7,6 @@ package-lock.json
 .output/
 dist/
 
-# pnpm
-pnpm-lock.yaml
-
 # Build outputs (legacy)
 chrome_sources/*.js
 firefox_sources/*.js
